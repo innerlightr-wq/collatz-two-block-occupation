@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the technical note it accompanies (see preferred-citation)."
+title: "Verification package for 'Least Realizers and Occupation in an Aligned Two-Block Collatz Family'"
+authors:
+  - family-names: "De Jesús"
+    given-names: "Elias"
+    orcid: "https://orcid.org/0009-0007-0190-9143"
+repository-code: "https://github.com/innerlightr-wq/collatz-two-block-occupation"
+license: MIT
+preferred-citation:
+  type: report
+  title: "Least Realizers and Occupation in an Aligned Two-Block Collatz Family"
+  authors:
+    - family-names: "De Jesús"
+      given-names: "Elias"
+      orcid: "https://orcid.org/0009-0007-0190-9143"
+  year: 2026
+  month: 11
+  doi: "10.5281/zenodo.24384828"
+  url: "https://doi.org/10.5281/zenodo.24384828"

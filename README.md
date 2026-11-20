@@ -2,8 +2,25 @@
 
 **Elias De Jesús** (ORCID 0009-0007-0190-9143)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24384828.svg)](https://doi.org/10.5281/zenodo.24384828)
+
 Technical note and its full verification package.
-**Paper: [`manuscript/occupation-note.pdf`](manuscript/occupation-note.pdf)** (13 pages).
+**Paper: [`manuscript/occupation-note.pdf`](manuscript/occupation-note.pdf)** (13 pages),
+archived at **[doi:10.5281/zenodo.24384828](https://doi.org/10.5281/zenodo.24384828)**.
+
+## Citation
+
+> De Jesús, Elias (2026). *Least Realizers and Occupation in an Aligned
+> Two-Block Collatz Family.* Zenodo. https://doi.org/10.5281/zenodo.24384828
+
+The concept DOI [10.5281/zenodo.24384827](https://doi.org/10.5281/zenodo.24384827)
+always resolves to the latest version; the version DOI above pins the
+deposited file.
+
+The archived PDF is the reviewed release. The copy in this repository is the
+same text with two additions to Appendix A: the link to this repository, and
+runtimes replaced by measurements from a fresh clone. No mathematical content
+differs.
 
 Among the 64 residue classes mod 64, exactly two carry the aligned six-step
 parity blocks `A = 111100` and `B = 111010`, namely 15 and 7, and on those
@@ -118,6 +135,6 @@ cd manuscript && latexmk -pdf occupation-note.tex
 
 ## License
 
-The MIT license covers the verification code in this repository, matching the
-convention of the author's other public companion repositories. Terms for the
-manuscript text are the author's to set.
+The MIT license in this repository covers the verification code. The technical
+note itself is archived under **CC BY 4.0**, as recorded in the Zenodo deposit
+[10.5281/zenodo.24384828](https://doi.org/10.5281/zenodo.24384828).
