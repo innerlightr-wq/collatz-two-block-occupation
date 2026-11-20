@@ -1,0 +1,179 @@
+
+============================================================================
+1. the grouping is exact (CONFIRMED)
+============================================================================
+  For a length-n prefix u, the starts below 64^{n+l} in its class
+  are exactly r_u + 64^n k, 0 <= k < L = 64^l, and the state after
+  n blocks is v_u + 81^n k.  Completing l+s more blocks is
+    v_u + 81^n k  in  R_{l+s}  (mod M),  i.e.  k in a^{-1}(R_{l+s} - v_u).
+    endpoint law verified by direct block iteration for n = 1,2,3
+    and many lift digits k.
+
+  m    l    s    D_m(0)     K        2^{5m-l} K   bound holds
+  1    1    1    2          1        16           yes
+  1    1    1    2          1        16           yes
+  1    2    1    2          1        8            yes
+  1    2    1    2          1        8            yes
+  1    3    1    2          2        8            yes
+  1    3    1    2          2        8            yes
+  2    1    1    2          1        512          yes
+  2    1    2    2          1        512          yes
+  2    2    1    2          1        256          yes
+  2    2    2    2          1        256          yes
+  2    3    1    2          2        256          yes
+  2    3    2    2          1        128          yes
+  (D_1(0) = 2 recomputed here by direct iteration; D_2(0) = 2 from
+   the note.)  The inequality D_m(0) <= 2^{5m-l} K_{l,s}(81^{5m-l})
+  holds in every case, and K = 1 means one small seed per group.
+
+============================================================================
+2. the four steps of the averaging argument
+============================================================================
+  STEP 1.  81 = 1 + 16*5, so v_2(81-1) = 4 exactly, and the order
+  of 81 mod 2^j is 2^{j-4}: it generates the units = 1 mod 16.
+    verified for j = 8,12,16,18,24,30.
+  The stride is 5 and the order is a power of two, so gcd(5, ord)
+  = 1 and m -> 81^{5m-l} runs through EVERY power: the phase is
+  equidistributed over the units = 1 mod 16, with period 2^{6(l+s)-4}.
+    l=1 s=1: 256 distinct phases, all = 1 mod 16 -- complete.
+    l=1 s=2: 16384 distinct phases, all = 1 mod 16 -- complete.
+    l=2 s=1: 16384 distinct phases, all = 1 mod 16 -- complete.
+
+  STEP 2.  A difference of two residues of R_d has v_2 = 3 + 6i at
+  the first differing label i.  If v >= 6l then any unit multiple
+  is a nonzero multiple of 2^{6l} = L, so its circular distance to
+  0 is at least L.
+    d=2: all 6 pairwise valuations are 3+6i.
+    d=3: all 28 pairwise valuations are 3+6i.
+    d=4: all 120 pairwise valuations are 3+6i.
+    verified: v >= 6l gives circular distance >= L for every phase.
+
+  STEP 3.  For v < 6l the scaled difference runs uniformly over a
+  coset of spacing 2^{v+4} (because the phase group is 1 + 16Z).
+    l=1 v=3  : orbit size 32     spacing [128] = 2^{v+4}
+    l=2 v=3  : orbit size 2048   spacing [128] = 2^{v+4}
+    l=2 v=9  : orbit size 32     spacing [8192] = 2^{v+4}
+  Counting coset points within circular distance < L of 0 gives at
+  most (2L-2)/2^{v+4} + 1 points out of M/2^{v+4}, a fraction
+    <= 2L/M + 2^{v+4}/M <= 4L/M   (since v <= 6l-3 gives 2^{v+4} <= 2L),
+  so the proposed 6L/M is correct with room to spare.
+
+  STEP 4.  Union over the C(2^{l+s},2) < 2^{2(l+s)-1} pairs gives
+  bad fraction <= 2^{2(l+s)-1} * 6L/M = 3 * 2^{2l-4s}.
+    l=1 s=1: union bound 3*2^{2l-4s} = 0.750000
+    l=1 s=2: union bound 3*2^{2l-4s} = 0.046875
+    l=2 s=2: union bound 3*2^{2l-4s} = 0.187500
+    l=2 s=3: union bound 3*2^{2l-4s} = 0.011719
+  All four steps are CORRECT as stated.
+
+============================================================================
+3. the exact bad fractions, and the control
+============================================================================
+  A depth m is BAD for (l,s) iff K_{l,s}(81^{5m-l}) >= 2, i.e. iff
+  the minimum circular spacing of the scaled residue set is < L.
+  Badness depends on the phase only, and the phase is
+  equidistributed, so the density of bad m is exactly
+  (#bad phases)/(#phases).
+  l    s    phases     bad        density      union bound
+  1    1    256        24         0.093750     0.750000
+        CONTROL REPRODUCED: exactly 24 of 256.
+  1    2    16384      72         0.004395     0.046875
+  2    1    16384      5456       0.333008     1.000000
+  The union bound is correct but loose by about 8x at l=s=1.
+
+============================================================================
+4. what the theorem says, with quantifiers
+============================================================================
+  THEOREM (density form).  Fix l and s = l.  For a set of m of
+  natural density at least 1 - 3*2^{-2l},
+      D_m(0) <= 2^{5m-l},   i.e.  D_m(0)/2^{5m} <= 2^{-l}.
+  Proof: steps 1-4.  The bad m form a union of residue classes
+  modulo the period 2^{12l-4}, of relative size < 3*2^{-2l}.
+
+  COROLLARY (natural density).  For every eps > 0,
+      dens{ m : D_m(0)/2^{5m} > eps } = 0.
+  Order of quantifiers: given eps, choose l_0 with 2^{-l_0} <= eps;
+  then for EVERY l >= l_0 the exceptional set is contained in the
+  bad set for that l, of density <= 3*2^{-2l}; letting l -> infinity
+  the upper density is 0.  The choice of l depends on eps only,
+  not on m, and the density statement is uniform in m.
+    eps = 0.5      : l_0 = 1   and sup over l >= l_0 of 3*2^{-2l} = 7.500e-01 -> 0
+    eps = 0.1      : l_0 = 4   and sup over l >= l_0 of 3*2^{-2l} = 1.172e-02 -> 0
+    eps = 0.001    : l_0 = 10  and sup over l >= l_0 of 3*2^{-2l} = 2.861e-06 -> 0
+  So D_m(0)/2^{5m} -> 0 IN NATURAL DENSITY.  This is a statement
+  about the FRACTION of words that continue, not about the COUNT:
+  2^{5m-l} is still exponentially large for fixed l.
+
+============================================================================
+5. the ceiling: this method cannot reach 84m
+============================================================================
+  Two constraints collide.
+   (a) s <= m, because only m blocks remain beyond depth p.
+   (b) the union bound is non-vacuous only if 3*2^{2l-4s} < 1,
+       i.e. l < 2s - log_2 3 <= 2m - 1.58.
+  Hence l <= 2m - 2 and the best bound the method can give is
+      D_m(0) <= 2^{5m-l} >= 2^{3m+2}.
+  To reach the benchmark one needs 2^{5m-l} <= 84m, i.e.
+      l >= 5m - log_2(84m).
+  m     l needed         l available      possible
+  1     -1.392           0.415            YES
+  2     2.608            2.415            no
+  3     7.023            4.415            no
+  5     16.286           8.415            no
+  10    40.286           18.415           no
+  100   486.964          198.415          no
+  So the averaging method reaches 84m only at m = 1, and from
+  m = 2 on it is short by (3m - log_2(84m) + 1.58) bits -- a gap
+  that GROWS linearly.  The method proves a vanishing fraction and
+  can never prove a bounded count.
+
+  Why l cannot be a positive fraction of m: with l = cm the
+  modulus M = 64^{(c+s/m)m} grows with m, so 'most phases are good'
+  says nothing about the ONE phase 81^{5m-l} that occurs at that m.
+  The averaging is over m at FIXED modulus; once the modulus moves
+  with m there is no average left to take.
+
+============================================================================
+6. allowing K > 1, and why savings do not multiply
+============================================================================
+  Allowing K points per window costs a factor K in the bound but
+  rescues phases.  Exact distribution of K_{l,s} over phases:
+    l=1 s=1: {1: '232 (0.9062)', 2: '24 (0.0938)'}   (of 256 phases)
+           mean K = 1.093750, so the AVERAGE bound is 2^{5m-l}*1.0938
+    l=1 s=2: {1: '16312 (0.9956)', 2: '72 (0.0044)'}   (of 16384 phases)
+           mean K = 1.004395, so the AVERAGE bound is 2^{5m-l}*1.0044
+    l=2 s=1: {1: '10928 (0.6670)', 2: '5320 (0.3247)', 3: '64 (0.0039)', 4: '72 (0.0044)'}   (of 16384 phases)
+           mean K = 1.345703, so the AVERAGE bound is 2^{5m-l}*1.3457
+  Allowing K = 2 only changes the constant, never the exponent, so
+  it cannot help with the ceiling of section 5.
+
+  SEVERAL BLOCK LENGTHS AT ONE DEPTH.  For l1 < l2 the prefix
+  groups are NESTED: the l2-groups refine the l1-groups, and the
+  bound 2^{5m-l} K is a count over one partition.  The two bounds
+  are therefore not independent and must NOT be multiplied; the
+  only valid combination is the minimum over (l,s).  Verified:
+    m=1 l=1: the 16 prefix groups of length 4 refine the 16 groups of length 4.
+    m=1 l=2: the 8 prefix groups of length 3 refine the 16 groups of length 4.
+
+============================================================================
+7. which inputs are Collatz-specific
+============================================================================
+  USES THE COEFFICIENTS:
+   * a = 81^{p-l}: the multiplier is a power of 81, and
+     v_2(81-1) = 4 exactly, so the phase group is the units = 1
+     mod 16, of index 16 -- this fixes the coset spacing 2^{v+4}
+     in step 3 and hence the constant 6 in 6L/M.
+   * R_d has pairwise valuations exactly 3 + 6i, from c_A, c_B
+     differing by 8 and the block multiplier 64.
+   * the stride 5 comes from the cutoff 64^{5m} = 32^{6m}.
+  HOLDS MORE GENERALLY: steps 2-4 need only (i) a residue set whose
+  pairwise valuations are a prescribed increasing sequence, and
+  (ii) a multiplier running over a subgroup of units of bounded
+  index.  Any family of affine maps x -> (Ax + c_D)/B with A, B
+  coprime, the c_D differing by a fixed amount, and v_2(A-1)
+  bounded, gives the same four steps with different constants.
+  The ceiling in section 5 is also generic: it comes from s <= m
+  and from the union bound, not from the arithmetic.
+
+1046/1046 checks passed
+EXIT=0

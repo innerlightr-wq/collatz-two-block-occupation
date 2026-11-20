@@ -1,0 +1,87 @@
+
+============================================================================
+1. the exact seed count
+============================================================================
+    m=1: B | T_t, the b_t are distinct, r_st formula holds for
+          all 64 ordered pairs, and D = 2 both ways.
+    m=2: B | T_t, the b_t are distinct, r_st formula holds for
+          all 4096 ordered pairs, and D = 2 both ways.
+  Note a_s need NOT be distinct (the A list carries multiplicity),
+  the cutoff is strict, and r > 0 always since r = 15 or 7 mod 64.
+
+============================================================================
+2. the dyadic bin identity, and the control table
+============================================================================
+  C_{j+1} = (C_j + G_j)/2 with G_j = sum_I dA(I) dZ(I), because
+  A_L Z_L + A_R Z_R = (A Z + dA dZ)/2.  Unrolling and using
+  C_0 = |A||Z| = 2^{3m} * 2^{3m+1} = 2^{6m+1} gives
+      C_J = 2 + sum_{j<J} e_j,   e_j = 2^{j-J} G_j.
+  m    D_m(0)   Same     Next     C_J      max e_j    identity
+  1    2        2        1        3        1          2+sum e_j = C_J
+  2    2        4        2        6        17/8       2+sum e_j = C_J
+  3    3        1        4        5        5/4        2+sum e_j = C_J
+  4    0        0        1        1        1/2        2+sum e_j = C_J
+  5    0        0        0        0        7/16       2+sum e_j = C_J
+  6    1        2        1        3        1          2+sum e_j = C_J
+    Every row of the supplied table reproduced exactly, and the
+    identity C_J = 2 + sum_j e_j holds as exact rationals.
+
+============================================================================
+3. the structure of A and Z, and where a flip-pairing stalls
+============================================================================
+  Z side: flipping letter i of t shifts T by +-8u_{n+i}, and
+  B | 8u_{n+i}, so b_t shifts by the EXACT integer tau_i =
+  8u_{n+i}/B.  Their valuations:
+      tau_0: v_2 = 3 (= 3+6i)
+      tau_1: v_2 = 9 (= 3+6i)
+      tau_2: v_2 = 15 (= 3+6i)
+      tau_3: v_2 = 21 (= 3+6i)
+      tau_4: v_2 = 27 (= 3+6i)
+    so Z is an affine image of a dissociated subset-sum set --
+    the same shape as the depth-n residue set.
+  A side: flipping letter i of s shifts P by -+8u_i, but
+  B does NOT divide 8u_i for i < n, so a_s = floor(P_s/B) shifts by
+  floor((P +- 8u_i)/B) - floor(P/B), which is the exact shift PLUS
+  a carry that depends on P_s mod B.  Measured carry rates:
+      letter 0: 56 of 4000 flips carry across a B-boundary
+      letter 1: 485 of 4000 flips carry across a B-boundary
+      letter 2: 153 of 4000 flips carry across a B-boundary
+    The carry is exactly the information the pairing must track;
+    it is NOT determined by the bin of a_s.
+  e_j profile at m=3 (level : e_j), showing where the mass sits:
+      j=0   e_j = -15/4096    
+      j=1   e_j = -27/4096    
+      j=2   e_j = 7/8192      
+      j=3   e_j = -373/8192   
+      j=4   e_j = 53/4096     
+      j=5   e_j = 75/2048     
+      j=6   e_j = 17/2048     
+      j=7   e_j = -3/1024     
+      j=8   e_j = -11/256     
+      j=9   e_j = -5/256      
+      j=10  e_j = 1/32        
+      j=11  e_j = -1/16       
+      j=12  e_j = 5/32        
+      j=13  e_j = 5/16        
+      j=14  e_j = 5/8         
+      j=15  e_j = 3/4         
+      j=16  e_j = 5/4         
+
+============================================================================
+4. the control, and the exact line that distinguishes
+============================================================================
+      m=1: A is a point mass at 0 (all 8 of them); D = 32 = 2^{5m} = 32 ; C_J = 32
+      m=2: A is a point mass at 0 (all 64 of them); D = 1024 = 2^{5m} = 1024 ; C_J = 1024
+      m=3: A is a point mass at 0 (all 512 of them); D = 32768 = 2^{5m} = 32768 ; C_J = 32768
+  THE LINE.  For the control every P_s < B, so a_s = 0 for all s:
+  the prefix list is a single atom, dA(I) is maximal along one
+  dyadic path at EVERY level, and e_j is of size 2^{3m} there --
+  the test e_j <= 13 fails at once.  For the true family the P_s
+  fill [0,Q) because u_i = 64^i 81^{-i-1} has a nonzero HIGH half,
+  which exists only because 81^{-i-1} is a nontrivial 2-adic unit.
+  So any estimate must prove that the high halves floor(P_s/B)
+  spread over [0,B); that single step is where 81 enters and where
+  the control dies.
+
+4204/4204 checks passed
+EXIT=0

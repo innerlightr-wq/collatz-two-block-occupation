@@ -1,0 +1,44 @@
+
+--- 1. the two blocks, their classes, and the block maps
+    A = 111100 <-> 15 mod 64 ;  B = 111010 <-> 7 mod 64
+    F_A(x) = (81x+65)/64 and F_B(x) = (81x+73)/64 verified on the
+    first 2000 members of each class, by six-step simulation.
+    15 -> 20 and 7 -> 10: the terminal parity is UNRESTRICTED, so
+    completing a word says nothing about continuing.
+    odd density = 4/6 = 2/3 = 0.666667 > log_3 2 = 0.630930
+    q=1: all 2 words -- realizer set is exactly one class mod 64^1.
+    q=2: all 4 words -- realizer set is exactly one class mod 64^2.
+    q=3: all 8 words -- realizer set is exactly one class mod 64^3.
+
+--- 2. the occupation inequality
+    64(17x'+73) = 81(17x+73) for B and 81(17x+73)-136 for A:
+    exact, so 17x_j+73 <= rho^j (17x_0+73) with equality iff all B.
+    t=48  b=1  : r_min(t+b) >= 2.792055e+72
+    t=20  b=0  : r_min(t+b) >= 2.535301e+30
+    t=12  b=6  : r_min(t+b) >= 5.610473e+17
+    log_rho 32 = 14.712372981, 5 log_rho 64 = 88.274237885
+    certified: 3^56 < 2^89 (rho^14 < 32), 3^336 < 2^534 (rho^84 <
+    64^5), so 84 < 5 log_rho 64 = 88.27424 and 84m is admissible.
+
+--- 3. the depth-49 minimum and the depth-48 control
+    r_min(49)        75 digits, 49 blocks, endpoint 31 mod 64, word
+        AABAAABABAAAAAABABABAABBAABBABBBBBABABBBABABABBAA
+    the 2^241 seed   72 digits, 48 blocks, endpoint 35 mod 64, word
+        BBBBABABAAAABABBBBBBAABABABBABABBBBAAAAAABABBABB
+    consistency: r_min(49) = 1.6539e+74 > 2^241 = 3.5337e+72.
+
+--- 4. the distinguished bin D_m(0), the mean-one lemma, and B_t
+    D_m(0) for m = 1..6 : 2, 2, 3, 0, 0, 1
+    (m = 7 gives 2 and m = 8 gives 1; see m7.log and the depth-48
+     certificate, where the unique start below 2^241 is < 2^240.)
+    m=1: mean over all 64 translates = 1 exactly; D_m(0) = 2, max_c D_m(c) = 3
+    m=2: mean over all 4096 translates = 1 exactly; D_m(0) = 2, max_c D_m(c) = 6
+    m=3: mean over all 262144 translates = 1 exactly; D_m(0) = 3, max_c D_m(c) = 8
+    so the average over bins is pinned, and the bin at the origin
+    is one of 64^m translates: the mean cannot bound it.
+    B_3 = 2, B_12 = 6, B_20 = 0 (full census t = 3..40 in windowcount.log: sum 65, max 6 at t = 12).
+    comparison family 7 + 8 sum eps_i 64^i: exactly
+    2^ceil((5t-2)/6) members below 2^{5t+1}, for every t = 3..14.
+
+37912/37912 checks passed
+EXIT=0

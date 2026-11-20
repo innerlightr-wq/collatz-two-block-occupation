@@ -1,0 +1,12 @@
+  branch 8/64 done, hits so far 0
+  branch 16/64 done, hits so far 0
+  branch 24/64 done, hits so far 0
+  branch 32/64 done, hits so far 0
+  branch 40/64 done, hits so far 0
+  branch 48/64 done, hits so far 1
+  branch 56/64 done, hits so far 1
+  branch 64/64 done, hits so far 1
+48-block starts below 2^241: 1
+   100766337511639514688053192519038392361740472623921585501397359010728775
+EXPECTED one seed: 100766337511639514688053192519038392361740472623921585501397359010728775
+EXIT=0

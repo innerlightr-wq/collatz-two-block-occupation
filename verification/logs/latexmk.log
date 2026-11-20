@@ -1,0 +1,521 @@
+Rc files read:
+  NONE
+Latexmk: This is Latexmk, John Collins, 15 June 2025. Version 4.87.
+No existing .aux file, so I'll make a simple one, and require run of *latex.
+Latexmk: applying rule 'pdflatex'...
+Rule 'pdflatex':  Reasons for rerun
+Category 'other':
+  Rerun of 'pdflatex' forced or previously required:
+    Reason or flag: 'Initial setup'
+
+------------
+Run number 1 of rule 'pdflatex'
+------------
+------------
+Running 'pdflatex  -interaction=nonstopmode -halt-on-error -recorder  "occupation-note.tex"'
+------------
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./occupation-note.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
+(/usr/share/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(/usr/share/texmf-dist/tex/latex/base/size11.clo))
+(/usr/share/texmf-dist/tex/latex/geometry/geometry.sty
+(/usr/share/texmf-dist/tex/latex/graphics/keyval.sty)
+(/usr/share/texmf-dist/tex/generic/iftex/ifvtex.sty
+(/usr/share/texmf-dist/tex/generic/iftex/iftex.sty)))
+(/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/share/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/usr/share/texmf-dist/tex/latex/amscls/amsthm.sty)
+(/usr/share/texmf-dist/tex/latex/mathtools/mathtools.sty
+(/usr/share/texmf-dist/tex/latex/tools/calc.sty)
+(/usr/share/texmf-dist/tex/latex/mathtools/mhsetup.sty))
+(/usr/share/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/share/texmf-dist/tex/latex/microtype/microtype.sty
+(/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/share/texmf-dist/tex/latex/microtype/microtype-pdftex.def)
+(/usr/share/texmf-dist/tex/latex/microtype/microtype.cfg))
+(/usr/share/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/share/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)
+(/usr/share/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+(/usr/share/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+(/usr/share/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(/usr/share/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+(/usr/share/texmf-dist/tex/generic/infwarerr/infwarerr.sty)))
+(/usr/share/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texmf-dist/tex/latex/refcount/refcount.sty)
+(/usr/share/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+(/usr/share/texmf-dist/tex/latex/kvoptions/kvoptions.sty)))
+(/usr/share/texmf-dist/tex/generic/stringenc/stringenc.sty)
+(/usr/share/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/share/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(/usr/share/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/share/texmf-dist/tex/latex/url/url.sty)
+(/usr/share/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/share/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty)))
+(/usr/share/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/share/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+(/usr/share/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty)))
+(/usr/share/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def)
+(./occupation-note.aux)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+(/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)
+(/usr/share/texmf-dist/tex/latex/graphics-def/pdftex.def
+(/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+))) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg)))
+(/usr/share/texmf-dist/tex/latex/microtype/mt-cmr.cfg)
+(/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/share/texmf-dist/tex/latex/microtype/mt-msa.cfg)
+(/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd)
+(/usr/share/texmf-dist/tex/latex/microtype/mt-msb.cfg)
+
+LaTeX Warning: Reference `thm:min49' on page 1 undefined on input line 62.
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+
+LaTeX Warning: Reference `lem:blocks' on page 2 undefined on input line 143.
+
+
+LaTeX Warning: Reference `eq:carry' on page 2 undefined on input line 151.
+
+
+LaTeX Warning: Reference `lem:class' on page 2 undefined on input line 155.
+
+
+LaTeX Warning: Citation `LopezStoll2009' on page 2 undefined on input line 172.
+
+
+[2{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+
+LaTeX Warning: Reference `lem:class' on page 3 undefined on input line 180.
+
+
+LaTeX Warning: Reference `lem:class' on page 3 undefined on input line 211.
+
+
+LaTeX Warning: Citation `Terras1976' on page 3 undefined on input line 213.
+
+
+LaTeX Warning: Citation `Lagarias1985' on page 3 undefined on input line 214.
+
+
+LaTeX Warning: Citation `LopezStoll2009' on page 3 undefined on input line 216.
+
+
+
+LaTeX Warning: Citation `DeJesusSturmian2026' on page 3 undefined on input line
+ 218.
+
+
+LaTeX Warning: Citation `MonksYazinski2004' on page 3 undefined on input line 2
+37.
+
+
+LaTeX Warning: Citation `LopezStoll2021' on page 3 undefined on input line 241.
+
+
+[3]
+
+LaTeX Warning: Citation `LopezStoll2021' on page 4 undefined on input line 253.
+
+
+
+LaTeX Warning: Reference `eq:growth' on page 4 undefined on input line 277.
+
+
+LaTeX Warning: Reference `eq:growth' on page 4 undefined on input line 298.
+
+
+LaTeX Warning: Reference `eq:occ' on page 4 undefined on input line 300.
+
+
+LaTeX Warning: Reference `eq:occ' on page 4 undefined on input line 304.
+
+
+LaTeX Warning: Reference `thm:occ' on page 4 undefined on input line 324.
+
+
+LaTeX Warning: Reference `prop:equiv' on page 4 undefined on input line 330.
+
+[4]
+
+LaTeX Warning: Reference `thm:occ' on page 5 undefined on input line 344.
+
+
+LaTeX Warning: Reference `lem:class' on page 5 undefined on input line 375.
+
+
+LaTeX Warning: Reference `thm:min49' on page 5 undefined on input line 402.
+
+[5]
+
+LaTeX Warning: Reference `thm:min49' on page 6 undefined on input line 443.
+
+
+LaTeX Warning: Reference `tab:bins' on page 6 undefined on input line 446.
+
+
+LaTeX Warning: Reference `thm:occ' on page 6 undefined on input line 468.
+
+
+LaTeX Warning: Reference `eq:growth' on page 6 undefined on input line 469.
+
+
+LaTeX Warning: Reference `eq:nec' on page 6 undefined on input line 470.
+
+
+LaTeX Warning: Reference `eq:nec' on page 6 undefined on input line 479.
+
+
+LaTeX Warning: Reference `prop:equiv' on page 6 undefined on input line 484.
+
+
+LaTeX Warning: Reference `cor:suff' on page 6 undefined on input line 490.
+
+[6]
+
+LaTeX Warning: Reference `lem:class' on page 7 undefined on input line 511.
+
+
+LaTeX Warning: Reference `lem:class' on page 7 undefined on input line 515.
+
+
+LaTeX Warning: Reference `lem:onecand' on page 7 undefined on input line 522.
+
+
+LaTeX Warning: Reference `lem:mean' on page 7 undefined on input line 537.
+
+
+LaTeX Warning: Reference `eq:carry' on page 7 undefined on input line 549.
+
+
+LaTeX Warning: Reference `lem:mean' on page 7 undefined on input line 565.
+
+[7]
+
+LaTeX Warning: Reference `lem:class' on page 8 undefined on input line 582.
+
+
+LaTeX Warning: Reference `lem:onecand' on page 8 undefined on input line 584.
+
+
+LaTeX Warning: Reference `prop:valbound' on page 8 undefined on input line 614.
+
+
+
+LaTeX Warning: Reference `thm:depthavg' on page 8 undefined on input line 652.
+
+[8]
+
+LaTeX Warning: Reference `thm:depthavg' on page 9 undefined on input line 659.
+
+
+LaTeX Warning: Reference `cor:84' on page 9 undefined on input line 661.
+
+
+LaTeX Warning: Reference `app:pkg' on page 9 undefined on input line 666.
+
+
+LaTeX Warning: Reference `lem:onecand' on page 9 undefined on input line 682.
+
+
+LaTeX Warning: Reference `prop:family' on page 9 undefined on input line 709.
+
+
+LaTeX Warning: Reference `tab:bins' on page 9 undefined on input line 718.
+
+
+LaTeX Warning: Reference `tab:Bt' on page 9 undefined on input line 718.
+
+
+LaTeX Warning: Reference `prop:48' on page 9 undefined on input line 735.
+
+
+LaTeX Warning: Reference `prop:48' on page 9 undefined on input line 735.
+
+[9]
+
+LaTeX Warning: Reference `lem:class' on page 10 undefined on input line 790.
+
+
+LaTeX Warning: Reference `prop:halfword' on page 10 undefined on input line 804
+.
+
+[10]
+
+LaTeX Warning: Reference `cor:84' on page 11 undefined on input line 828.
+
+
+LaTeX Warning: Reference `tab:split' on page 11 undefined on input line 829.
+
+
+LaTeX Warning: Reference `prop:equiv' on page 11 undefined on input line 874.
+
+
+LaTeX Warning: Citation `LopezStoll2021' on page 11 undefined on input line 875
+.
+
+
+LaTeX Warning: Citation `MonksYazinski2004' on page 11 undefined on input line 
+878.
+
+
+LaTeX Warning: Reference `thm:occ' on page 11 undefined on input line 880.
+
+
+LaTeX Warning: Reference `thm:depthavg' on page 11 undefined on input line 882.
+
+
+
+LaTeX Warning: Reference `prop:halfword' on page 11 undefined on input line 883
+.
+
+
+LaTeX Warning: Reference `prop:valbound' on page 11 undefined on input line 884
+.
+
+
+LaTeX Warning: Reference `prop:family' on page 11 undefined on input line 884.
+
+[11]
+
+LaTeX Warning: Reference `cor:84' on page 12 undefined on input line 891.
+
+
+LaTeX Warning: Reference `cor:suff' on page 12 undefined on input line 892.
+
+
+LaTeX Warning: Reference `thm:depthavg' on page 12 undefined on input line 894.
+
+
+
+LaTeX Warning: Reference `lem:mean' on page 12 undefined on input line 897.
+
+
+LaTeX Warning: Reference `tab:split' on page 12 undefined on input line 907.
+
+
+LaTeX Warning: Reference `sec:split' on page 12 undefined on input line 907.
+
+
+LaTeX Warning: Reference `tab:bins' on page 12 undefined on input line 908.
+
+
+LaTeX Warning: Reference `sec:split' on page 12 undefined on input line 926.
+
+
+LaTeX Warning: Reference `prop:bins' on page 12 undefined on input line 926.
+
+
+LaTeX Warning: Reference `sec:split' on page 12 undefined on input line 926.
+
+
+LaTeX Warning: Reference `prop:bins' on page 12 undefined on input line 926.
+
+
+LaTeX Warning: Reference `thm:min49' on page 12 undefined on input line 936.
+
+
+LaTeX Warning: Reference `prop:valbound' on page 12 undefined on input line 938
+.
+
+
+LaTeX Warning: Reference `lem:onecand' on page 12 undefined on input line 939.
+
+
+LaTeX Warning: Reference `prop:family' on page 12 undefined on input line 939.
+
+
+LaTeX Warning: Reference `thm:depthavg' on page 12 undefined on input line 941.
+
+
+
+LaTeX Warning: Reference `prop:halfword' on page 12 undefined on input line 942
+.
+
+
+LaTeX Warning: Reference `prop:bins' on page 12 undefined on input line 942.
+
+
+LaTeX Warning: Reference `tab:split' on page 12 undefined on input line 942.
+
+
+LaTeX Warning: Reference `prop:48' on page 12 undefined on input line 944.
+
+
+LaTeX Warning: Reference `prop:48' on page 12 undefined on input line 945.
+
+[12] [13] (./occupation-note.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `occupation-note.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+ )</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmitt10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmmi9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.p
+fb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/font
+s/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.
+pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+sy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/
+share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/share/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-dist/fonts/type1/
+public/amsfonts/symbols/msbm10.pfb></usr/share/texmf-dist/fonts/type1/public/cm
+-super/sfrm1095.pfb>
+Output written on occupation-note.pdf (13 pages, 371865 bytes).
+Transcript written on occupation-note.log.
+Latexmk: Getting log file 'occupation-note.log'
+Latexmk: Examining 'occupation-note.fls'
+Latexmk: Examining 'occupation-note.log'
+Latexmk: References changed.
+Latexmk: References changed.
+Latexmk: Log file says output to 'occupation-note.pdf'
+Latexmk: Using bibtex to make bibliography file(s).
+Latexmk: applying rule 'pdflatex'...
+Rule 'pdflatex':  Reasons for rerun
+Changed files or newly in use/created:
+  occupation-note.aux
+  occupation-note.out
+
+------------
+Run number 2 of rule 'pdflatex'
+------------
+------------
+Running 'pdflatex  -interaction=nonstopmode -halt-on-error -recorder  "occupation-note.tex"'
+------------
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./occupation-note.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
+(/usr/share/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(/usr/share/texmf-dist/tex/latex/base/size11.clo))
+(/usr/share/texmf-dist/tex/latex/geometry/geometry.sty
+(/usr/share/texmf-dist/tex/latex/graphics/keyval.sty)
+(/usr/share/texmf-dist/tex/generic/iftex/ifvtex.sty
+(/usr/share/texmf-dist/tex/generic/iftex/iftex.sty)))
+(/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/share/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/usr/share/texmf-dist/tex/latex/amscls/amsthm.sty)
+(/usr/share/texmf-dist/tex/latex/mathtools/mathtools.sty
+(/usr/share/texmf-dist/tex/latex/tools/calc.sty)
+(/usr/share/texmf-dist/tex/latex/mathtools/mhsetup.sty))
+(/usr/share/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/share/texmf-dist/tex/latex/microtype/microtype.sty
+(/usr/share/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/share/texmf-dist/tex/latex/microtype/microtype-pdftex.def)
+(/usr/share/texmf-dist/tex/latex/microtype/microtype.cfg))
+(/usr/share/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/share/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty)
+(/usr/share/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+(/usr/share/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+(/usr/share/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(/usr/share/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+(/usr/share/texmf-dist/tex/generic/infwarerr/infwarerr.sty)))
+(/usr/share/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texmf-dist/tex/latex/refcount/refcount.sty)
+(/usr/share/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+(/usr/share/texmf-dist/tex/latex/kvoptions/kvoptions.sty)))
+(/usr/share/texmf-dist/tex/generic/stringenc/stringenc.sty)
+(/usr/share/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/share/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(/usr/share/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/share/texmf-dist/tex/latex/url/url.sty)
+(/usr/share/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/share/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty)))
+(/usr/share/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/share/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+(/usr/share/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty)))
+(/usr/share/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def)
+(./occupation-note.aux)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+(/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)
+(/usr/share/texmf-dist/tex/latex/graphics-def/pdftex.def
+(/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+))) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg)))
+(/usr/share/texmf-dist/tex/latex/microtype/mt-cmr.cfg) (./occupation-note.out)
+(./occupation-note.out) (/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/usr/share/texmf-dist/tex/latex/microtype/mt-msa.cfg)
+(/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd)
+(/usr/share/texmf-dist/tex/latex/microtype/mt-msb.cfg) [1{/var/lib/texmf/fonts/
+map/pdftex/updmap/pdftex.map}] [2{/usr/share/texmf-dist/fonts/enc/dvips/cm-supe
+r/cm-super-ts1.enc}] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12] [13]
+(./occupation-note.aux) )</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></u
+sr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmitt10.pfb></usr/share/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/sh
+are/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></us
+r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></u
+sr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pf
+b></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/
+texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf-dis
+t/fonts/type1/public/cm-super/sfrm1095.pfb>
+Output written on occupation-note.pdf (13 pages, 375394 bytes).
+Transcript written on occupation-note.log.
+Latexmk: Getting log file 'occupation-note.log'
+Latexmk: Examining 'occupation-note.fls'
+Latexmk: Examining 'occupation-note.log'
+Latexmk: Log file says output to 'occupation-note.pdf'
+Latexmk: Using bibtex to make bibliography file(s).
+Latexmk: All targets (occupation-note.pdf) are up-to-date
+

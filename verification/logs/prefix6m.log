@@ -1,0 +1,152 @@
+
+============================================================================
+1. the four corrections: all four accepted
+============================================================================
+  (i)  2^89/3^56 = 1.1827129437, not 1.182798.
+       My verifier printed 1.182713 correctly; I mis-transcribed it
+       into the report and the memory note.  Both fixed.
+  (ii) B_12 = 6 is to be compared with 14*12 = 168, not 42.
+       My sentence used 42 = 14*3, the minimum allowance over the
+       censused range; as a comparator for B_12 it is wrong.
+  (iii) the largest ratio is attained at t = 3: B_3/42 = 2/42.
+       confirmed: B_3 = 2, ratio 2/42 = 0.047619.
+  (iv) sum of B_t over t = 3..40 is 65, mean 65/38 = 1.7105;
+       with t = 48 included, 66/39 = 1.6923.
+
+============================================================================
+2. the lambda-deficit form is the weakest of the three
+============================================================================
+  lambda = log_rho 32 = 5 alpha = 14.71237298.
+  The transfer floor is, exactly up to the additive 73/17,
+    17 r_min(t+B_t) + 73 >= (17*2^{5t+1}+73) rho^{-B_t},
+  and 2^{5t} = rho^{lambda t}, so the floor is 2 rho^{lambda t-B_t}
+  up to fixed constants.  Verified as an exact rational identity:
+    t=12   b=6   : floor 10^17.749     2 rho^{lambda t-b} = 10^17.749
+    t=40   b=1   : floor 10^60.405     2 rho^{lambda t-b} = 10^60.405
+    t=48   b=1   : floor 10^72.446     2 rho^{lambda t-b} = 10^72.446
+    t=100  b=14  : floor 10^149.384    2 rho^{lambda t-b} = 10^149.384
+  So the sufficient conditions, from weakest to strongest:
+    (i)   lambda t - B_t -> +infinity along SOME sequence
+          (even a log log t deficit), giving an unbounded floor;
+    (ii)  B_t <= 14t at arbitrarily large t: deficit >= 0.712 t,
+          so an EXPONENTIAL floor 2 * 1.182713^t;
+    (iii) liminf (1/T) sum B_t < infinity: infinitely many t with
+          B_t = O(1), so a floor of order 32^t at depth t + O(1).
+  (iii) => (ii) => (i).  I called (iii) the weakest sufficient
+  condition in the programme; (i) is weaker, and is the right
+  statement of the target.  Corrected.
+    a log log t deficit at t = 10^3 gives only a floor of about 1.58
+    a log log t deficit at t = 10^6 gives only a floor of about 1.86
+  -- so (i) is genuinely weak: the floor it produces may grow
+  arbitrarily slowly.  Monotonicity of r_min is what makes that
+  enough.
+
+============================================================================
+3. the 2^{ceil((5t-2)/6)} ceiling is SHARP: their family confirms it
+============================================================================
+  Comparison family  x_eps = 7 + 8 sum eps_i 64^i,  eps in {0,1}^t.
+  It shares three structural facts with the real residue set:
+    the two admissible residues 7 and 15 mod 64,
+    the nesting (a prefix fixes x mod 64^k),
+    the first-difference valuations v_2 = 3 + 6i.
+    t=3   K=3   count = 2^K = 8      (of 2^3)
+    t=4   K=3   count = 2^K = 8      (of 2^4)
+    t=5   K=4   count = 2^K = 16     (of 2^5)
+    t=6   K=5   count = 2^K = 32     (of 2^6)
+    ... exact agreement for every t = 3..14, rounding included.
+  Reason: 8*64^i = 2^{3+6i}, every term with 3+6i <= 5t fits (their
+  total is < 2^{5t}*64/63 < 2^{5t+1}) and any single term with
+  3+6i >= 5t+1 overshoots, so the count is
+    2^{#{i : 3+6i <= 5t}} = 2^{floor((5t-3)/6)+1} = 2^{ceil((5t-2)/6)}
+  using floor((n-1)/6)+1 = ceil(n/6), checked for t = 3..59.
+  CONSEQUENCE.  No argument using only those three facts can beat
+  2^{5t/6}.  My bound is the exact ceiling of the structure-only
+  axis, and any improvement must use arithmetic specific to the
+  block maps.  This CLOSES the 2-adic axis for B_t.
+
+============================================================================
+4. the t = 6m prefix/endpoint intersection
+============================================================================
+  Cutoff H = 64^{5m} = 2^{30m} (a factor 2 below 2^{5t+1}).
+  The 2^{5m} residues r_u mod 64^{5m} are pairwise distinct, so
+  each 5m-letter prefix u has EXACTLY ONE representative below H,
+  and it realizes 5m blocks because that depends only on
+  x mod 64^{5m}.  It realizes t = 6m blocks exactly when its
+  endpoint v_u satisfies v_u mod 64^m in S_m, the depth-m survivor
+  set (|S_m| = 2^m).  Both steps verified below.
+
+  m    t=6m   matches    allowance 84m ref. value least match
+  1    6      2          84           1.0        407524047
+  2    12     2          168          1.0        215776538488999239
+  3    18     3          252          1.0        311461174498663094278574799
+  4    24     0          336          1.0        -
+  5    30     0          420          1.0        -
+  6    36     1          504          1.0        874475280539475770755119606768077210495714994035887431
+  (their counts 2, 2, 3 for m = 1, 2, 3 reproduced)
+  m = 8: the depth-48 certificate gives exactly ONE match, since
+  the unique start below 2^241 is in fact below 2^240.
+
+  cross-check by direct enumeration (no residue formula):
+    m=1: |S_m| = 2, 2^{5m} = 32 prefixes, 2 matches - agrees
+    m=2: |S_m| = 4, 2^{5m} = 1024 prefixes, 2 matches - agrees
+    m=3: |S_m| = 8, 2^{5m} = 32768 prefixes, 3 matches - agrees
+
+============================================================================
+5. where the intersection is hard: v_u is a middle-bit window
+============================================================================
+  From 64^{5m} v_u = 81^{5m} r_u + C_u, the quantity that decides
+  a match is
+    v_u mod 64^m = floor((81^{5m} r_u + C_u)/2^{30m}) mod 2^{6m},
+  i.e. BITS 30m..36m OF THE PRODUCT 81^{5m} r_u.  The low 30m bits
+  of that product are what pin r_u (they encode the prefix), and
+  the top bits are what the window cutoff controls.  The matching
+  condition reads the bits in between.
+    m=1: verified on 40 prefixes.
+    m=2: verified on 40 prefixes.
+    m=3: verified on 40 prefixes.
+  This is a 'middle bits of a multiplication' statement: the 2-adic
+  side fixes the low window and the archimedean side fixes the top,
+  and the matching bits are exactly the ones neither controls.  It
+  is the same 2-adic/archimedean decoupling that capped every
+  earlier axis, now in its sharpest form -- and it is why part 3's
+  structure-only ceiling cannot be improved without new arithmetic.
+
+  DIAGNOSTIC: is S_m special?  Count matches against random sets
+  of the same size, to see whether the real survivor set behaves
+  atypically.  (Evidence only; proves nothing.)
+    m=2: real 2, random mean 1.070 (reference 1.0), P(random >= real) = 0.302
+    m=3: real 3, random mean 0.963 (reference 1.0), P(random >= real) = 0.077
+  So the real survivor set looks typical at these depths: the
+  counts are consistent with Poisson(1), which is exactly why no
+  conspiracy is visible to exploit and no bound follows.
+
+============================================================================
+6. verdict
+============================================================================
+  ACCEPTED, all four corrections: 2^89/3^56 = 1.1827129437 (my
+  transcription error, 1.182798 was wrong); B_12 = 6 against 168;
+  the largest ratio is B_3/42 = 2/42; sums 65/38 and 66/39.
+  ACCEPTED, the lambda-deficit form.  The floor is 2rho^{lambda t-B_t}
+  up to constants, so lambda t - B_t -> +infinity along one sequence
+  suffices and is weaker than my (iii).  Hierarchy corrected.
+  CONFIRMED SHARP.  Their comparison family has exactly
+  2^{ceil((5t-2)/6)} members below the cutoff, for every t = 3..14,
+  rounding included.  So residues 7/15 mod 64 + nesting +
+  valuations 3+6i cannot give anything better than 2^{5t/6}: the
+  2-adic axis for B_t is CLOSED at exactly my bound.
+  CONFIRMED, the t = 6m reformulation.  One representative per
+  5m-prefix below H = 64^{5m}, survival iff v_u mod 64^m in S_m,
+  and the counts are
+    m=1: 2, m=2: 2, m=3: 3, m=4: 0, m=5: 0, m=6: 1, m=8: 1 (from the depth-48 certificate),
+  every one far below the allowance 84m.
+  NO BOUND OBTAINED, and the obstruction is now explicit: a match
+  is decided by bits 30m..36m of 81^{5m} r_u -- the middle window
+  of a multiplication, which the 2-adic side (low bits, the prefix)
+  and the archimedean side (top bits, the cutoff) jointly leave
+  free.  Against 400 random survivor sets per depth the real counts
+  are indistinguishable from Poisson(1), so there is no visible
+  structure to convert into an upper bound.
+  SCOPE.  Restricted two-block positive-integer claim only.
+
+34314/34314 checks passed
+EXIT=0

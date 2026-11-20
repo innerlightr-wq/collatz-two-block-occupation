@@ -1,0 +1,8 @@
+stored 16777216 subset sums of letters 0..23 in 11.5s
+iterating 4096 x 8192 subset sums of letters 24..48, cutoff = claim + 1
+49-block starts below claim+1: 1
+   165388305886088784630384508139202367487215600393310936214638366216510132943
+exactly the claimed minimum: True
+replay: 49 blocks, word AABAAABABAAAAAABABABAABBAABBABBBBBABABBBABABABBAA, endpoint mod 64 = 31
+elapsed 93.5s
+EXIT=0

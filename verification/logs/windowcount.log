@@ -1,0 +1,183 @@
+
+============================================================================
+1. the U_t threshold is alpha, not 1 - delta  [MY LAST PASS WAS WRONG]
+============================================================================
+  U_t = # t-block starts in W_{5t}.  On a surviving orbit every
+  boundary realizes infinitely many blocks, hence at least t, so
+  EVERY VISIT to W_{5t} is itself a t-block start, and the visits
+  are distinct because x -> (81x+c)/64 is strictly increasing on
+  positive states.  So U_t is at least the visit count.
+  The visit count is 3 on a set of scales of density 1 - delta and
+  2 on density delta, so
+    liminf (1/T) sum U_t >= 3 - delta = alpha = 2.9424745962.
+  An upper average of 2 along an unbounded sequence of T therefore
+  contradicts survival.  The reference average of U_t is 1.
+
+  RETRACTION.  Yesterday I wrote that the unrestricted count is
+  closed because E[U_t] = 1 exceeds the threshold 0.9424746 by 6%.
+  That compared the wrong pair.  The 0.9424746 threshold belongs to
+  C_t (three-visit starts, one per scale); the unrestricted count
+  must be weighed against the visits WITH MULTIPLICITY, which is
+  alpha = 2.9424746.  The margin is therefore not -6% but
+    2.000000 / 1.000000 = a factor 2 of slack to the usable
+    threshold, and 2.942475 to the forced value.
+  So the unrestricted window count is NOT closed.  My claim that a
+  proof must use the bottom 24.86%% of each window is withdrawn.
+
+============================================================================
+2. the B_t <= 14t target: the chain is valid
+============================================================================
+  (a) GROWTH.  With Y = 17x + 73 the two blocks give exactly
+        64 Y' = 81 Y        (B),
+        64 Y' = 81 Y - 136  (A),
+      so Y_{j+1} <= rho Y_j with equality iff the block is B.
+      checked on 6 admissible states, both labels.  Hence
+        Y_b <= rho^b Y_0, i.e. 17x_0 + 73 >= (17x_b + 73) rho^-b.
+  (b) PIGEONHOLE.  A seed completing t+b blocks has boundaries
+      x_0 < x_1 < ... < x_b, and x_j realizes t+b-j >= t blocks, so
+      all b+1 are distinct t-block starts.  If x_b < H_t all b+1
+      would lie below H_t, but only b = B_t do.  So x_b >= H_t and
+        17 r_min(t+b) + 73 >= (17 H_t + 73) (64/81)^b.
+      worked instance, b = B_48 = 1: any seed completing 49 blocks
+      has x_1 >= 2^241, hence x_0 >= 2.792055e+72.
+      This is weaker than the direct depth-48 count (which gives
+      r_min(49) >= 2^241 = 3.534e+72) -- the framework is asymptotic,
+      not a sharpening at any fixed depth.
+  (c) THE EXPONENT.  The bound grows iff 2^{5t} rho^-b -> infinity,
+      i.e. iff b <= 5 log_rho 2 - o(1) times t, and
+        5 alpha = log_rho 32 = 14.712372981.
+      verified by integer comparison: 3^56 < 2^89 < 2^95 < 3^60, so
+      14 < log_rho 32 < 15 and the choice 14 is safe.
+      With b = 14t the lower bound is 2 (32/rho^14)^t with
+        32/rho^14 = 2^89/3^56 = 1.182713,
+      so r_min(t + B_t) >= 2 * 1.1827^t -> infinity.
+        t = 100   : r_min(t+B_t) >= 10^7.6
+        t = 1000  : r_min(t+B_t) >= 10^73.2
+  (d) Monotonicity of r_min (Theorem M) upgrades a subsequence to
+      the full limit, so B_t <= 14t at arbitrarily large t gives
+      r_min(q) -> infinity.  CHAIN VALID.
+
+============================================================================
+3. what the 2-adic structure gives UNCONDITIONALLY
+============================================================================
+  The 2^t residues are r_w = base + sum_{i in B(w)} s_i mod 64^t
+  with v_2(s_i) = 3 + 6i exactly.  So if w, w' first differ at
+  index k then 2^{3+6k} divides r_w - r_w'.
+  verified v_2(s_i) = 3+6i for t = 4, 8, 12 and every i.
+
+  THEOREM (new here).  Two starts below H_t = 2^{5t+1} cannot agree
+  on their first K letters, where K = ceil((5t-2)/6): they would
+  differ by a nonzero multiple of 2^{3+6K} >= 2^{5t+1}, which
+  exceeds the width of the interval.  Hence
+        B_t <= 2^K,   K = ceil((5t-2)/6) ~ 5t/6.
+  Refining by prefix length k gives B_t <= 2^{5t-2-5k} + 2^k, whose
+  optimum is again k = (5t-2)/6.  So 5t/6 is the CEILING of the
+  purely 2-adic argument, not an artefact of the first proof.
+
+  t    B_t      K        2^K        min first-diff index
+  4    2        3        8          0
+  6    2        5        32         2
+  8    4        7        128        1
+  10   2        8        256        0
+  12   6        10       1024       0
+  14   1        12       4096       -
+  16   2        13       8192       2
+  The observed first-difference indices are far below K, so the
+  bound 2^K is nowhere near attained -- but nothing in the 2-adic
+  structure sees that.  Closing the gap from 2^{5t/6} to 14t is
+  exactly an equidistribution statement for {r_w}.
+
+============================================================================
+5. exact census of B_t
+============================================================================
+  t     B_t      14t        B_t/14t      least start
+  3     2        42         0.0476       3399
+  4     2        56         0.0357       560455
+  5     1        70         0.0143       2773711
+  6     2        84         0.0238       407524047
+  7     2        98         0.0204       54024048847
+  8     4        112        0.0357       431220461775
+  9     1        126        0.0079       68794806996295
+  10    2        140        0.0143       68794806996295
+  11    1        154        0.0065       71240790245216463
+  12    6        168        0.0357       215776538488999239
+  13    0        182        0.0000       -
+  14    1        196        0.0051       1190381683303342885703
+  15    2        210        0.0095       53986509042089154088263
+  16    2        224        0.0089       970904254036692682281167
+  17    1        238        0.0042       32094027734738010392891599
+  18    4        252        0.0159       311461174498663094278574799
+  19    2        266        0.0075       311461174498663094278574799
+  20    0        280        0.0000       -
+  21    0        294        0.0000       -
+  22    3        308        0.0097       548541919260115158899024996601159
+  23    0        322        0.0000       -
+  24    1        336        0.0030       2042958585397282782928608350361881927
+  25    1        350        0.0029       67864921131660786772816983402105459407
+  26    1        364        0.0027       1888468042256556917770669888452741485263
+  27    1        378        0.0026       79656262449031196229555105945256762838343
+  28    3        392        0.0077       719831428919173966200470718978078723641551
+  29    2        406        0.0049       55925671367935925134772465536315509214759751
+  30    0        420        0.0000       -
+  31    1        434        0.0023       35196327679351222117748524574839916643461992655
+  32    2        448        0.0045       1517162738462308259920134917123951762436081585479
+  33    2        462        0.0043       15679280801755071879632452709045444174621502738639
+  34    3        476        0.0063       670038448338981230197632471165472078071677730033871
+  35    2        490        0.0041       14400083168807764295682851502397082504481247303044423
+  36    3        504        0.0060       874475280539475770755119606768077210495714994035887431
+  37    2        518        0.0039       35692169039329604585510892567845425566146740382999646415
+  38    1        532        0.0019       1746694707042916313515143475193962107904358571506979410127
+  39    1        546        0.0018       68812741883520250008078883610569612022377094966105130700103
+  40    1        560        0.0018       1585657440888200618436880851157051403863933506126949624007495
+
+  B_t <= 14t at every t = 3..40 (and at t = 48, where B = 1).
+  max B_t = 6, attained at t = [12]
+  average of B_t over t = 3..40 : 1.7105   (reference value 2)
+  largest ratio B_t/(14t) : 0.0476
+
+============================================================================
+4. B_t <= 14t infinitely often follows from ANY finite average
+============================================================================
+  If B_t > 14t for every t >= t_0 then
+    sum_{t<=T} B_t > 14 * (T^2 - t_0^2)/2 ~ 7 T^2,
+  so (1/T) sum_{t<=T} B_t -> infinity.  Contrapositive:
+    liminf_T (1/T) sum_{t<=T} B_t < infinity
+  implies B_t <= 14t at arbitrarily large t, hence r_min(q) -> inf.
+  So the usable target is weaker than an average of 2 for U_t: ANY
+  constant bound on the average of B_t along one unbounded
+  sequence of T suffices, because the linear allowance 14t does
+  the rest.  That is the weakest sufficient condition the
+  programme has produced.
+
+============================================================================
+6. verdict
+============================================================================
+  CORRECTED.  My last pass closed the unrestricted-count route on a
+  mis-paired comparison.  Weighed against the visit count with
+  multiplicity, the threshold is alpha = 2.9424746 and the usable
+  target is an average of 2 -- a factor 2 above the reference
+  value 1, not 6%% below a threshold.  The route is open.
+  CONFIRMED.  The B_t <= 14t chain: growth 64Y' <= 81Y with
+  Y = 17x+73, the b+1 distinct starts, x_b >= H_t, the exponent
+  5 log_rho 2 = 14.712373 > 14 (integer-certified by 3^56 < 2^89),
+  and monotonicity. B_t <= 14t at arbitrarily large t does settle
+  the restricted claim.
+  CONFIRMED by census.  B_t <= 14t at every t = 3..40 and at 48;
+  max B_t = 6 against an allowance of 14t >= 42; observed average
+  1.711 against the reference 2.
+  NEW, UNCONDITIONAL.  B_t <= 2^{ceil((5t-2)/6)}: a start below
+  H_t is determined by its first ~5t/6 letters, because
+  v_2(s_i) = 3+6i.  This is a factor 2^{t/6} below the trivial
+  2^t, it is the ceiling of the 2-adic argument, and it is still
+  exponential.
+  THE GAP, in its weakest form yet.  Any constant bound on
+  liminf (1/T) sum_{t<=T} B_t.  No paired zeros, no bottom-24.86%%
+  resolution, no single-scale bound, and a factor ~7t of slack at
+  each scale.  What is still missing is the same thing as always:
+  an equidistribution estimate for the residues r_w in a short
+  interval -- but now needed only on average and only to within
+  a linearly growing factor.
+  SCOPE.  Restricted two-block positive-integer claim only.
+
+110/110 checks passed
+EXIT=0

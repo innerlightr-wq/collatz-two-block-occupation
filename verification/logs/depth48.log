@@ -1,0 +1,116 @@
+
+============================================================================
+1. the unique 48-block seed below 2^241
+============================================================================
+  seed (72 digits) = 100766337511639514688053192519038392361740472623921585501397359010728775
+  2^241 = 3.534e+72, and the seed sits at 0.0285 of it
+  word: BBBBABABAAAABABBBBBBAABABABBABABBBBAAAAAABABBABB
+  boundary after 48 blocks = 8202715119948079618738700704624290008326907991008520856030001878734909577507
+    mod 64 = 35, so the 49th block cannot start.
+  raw six-bit replay agrees on both the word and the endpoint.
+
+============================================================================
+2. independent counts
+============================================================================
+  my own counter: subset sums over the B-positions, branch on the
+  first few letters, meet-in-the-middle on two equal blocks, exact
+  cyclic interval test on full residues mod 64^t -- no low/high
+  digit decomposition, so it is structurally independent.
+  t     limit          count      expected   least hit
+  4     2^21           2          2          560455
+  10    2^51           2          2          68794806996295
+  12    2^61           6          6          215776538488999239
+  20    2^101          0          0          -
+  all four controls agree with the supplied verifier.
+
+  the depth-48 run is in scripts/independent48.py (64 branches,
+  two blocks of 21 letters); see logs/independent48.log for its
+  result.  The supplied verifier's own run is logged in
+  logs/note_verifier.log.
+    independent count: 1
+
+============================================================================
+3. the density consequence (proved)
+============================================================================
+  alpha = log_rho 2 is IRRATIONAL: rho^a = 2^b forces
+  81^a = 2^{b+6a}, i.e. 3^{4a} = 2^{b+6a}, so a = b = 0.
+  Hence 5 alpha is irrational too, so the sampled phases
+    phi_t = frac(5 alpha t - log_rho L)
+  are equidistributed mod 1 by Weyl's theorem, for ANY L.
+  On a surviving orbit C_t = 0 forces W_{5t} to receive exactly
+  two visits (three would produce a counted start), and two visits
+  happen exactly when phi_t lies in an arc of length
+    delta = 3 - alpha = 0.0575254038.
+  Equidistribution therefore gives
+    upper density of {t : C_t = 0} <= delta = 5.752540%.
+    sampled frequency at L = 1.0      : 0.05751  (delta = 0.05753)
+    sampled frequency at L = 3.7      : 0.05751  (delta = 0.05753)
+    sampled frequency at L = 1234.5   : 0.05753  (delta = 0.05753)
+  so the 5t-sampled rotation does equidistribute, and the bound is
+  not an artefact of the sampling.
+
+  OBSERVED, from yesterday's census over t = 3..48:
+    C_t = 0 at 39 of 46 scales = 84.8%, against the <= 5.753%
+    that a surviving orbit would force: a factor 14.7 apart.
+
+============================================================================
+4. the reduction to an average bound
+============================================================================
+  C_t is a nonnegative integer, so
+    #{t <= T : C_t >= 1} <= sum_{t<=T} C_t,
+  hence density of zeros >= 1 - (1/T) sum C_t.  Combining with
+  part 3, a surviving orbit needs
+    1 - (1/T) sum_{t<=T} C_t <= delta   for all large T,
+  i.e. (1/T) sum C_t >= 1 - delta = alpha - 2 = 0.9424745962.
+  So it SUFFICES to prove
+    liminf_T (1/T) sum_{t<=T} C_t < 0.9424746.
+
+  where the observed data sits:
+  quantity                           value        versus 0.9424746
+  (1/T) sum C_t, T = 3..48           0.152174     BELOW by 6.2x
+  (1/T) sum unres_t (trivial bound)  0.891304     BELOW by 5.7%
+  heuristic mean of C_t              0.248590     BELOW by 3.8x
+  heuristic mean of unres_t          1.000000     ABOVE by 6.1%
+
+  THE DECISIVE POINT.  C_t <= unres_t always, and the expected
+  value of unres_t is EXACTLY 1, because the window length 2^{5t}
+  times the start density 2^t/64^t = 2^{-5t} is 1.  So the trivial
+  bound (1/T) sum unres_t converges to 1, which EXCEEDS the
+  threshold 0.9424746 by about 6 percent.
+  Its observed value 0.8913 is below the threshold only by
+  fluctuation at these scales.  Any proof must therefore use the
+  three-visit restriction itself -- the factor
+    2/rho^2 - 1 = 0.248590
+  of the window -- and not merely the window count.
+  Equivalently: an averaged discrepancy bound for the residues
+  {r_w} in the bottom 24.86%% of W_{5t}, good to within a factor
+  3.8 of the truth, suffices.  Nothing weaker than that will do,
+  and nothing stronger is needed.
+
+============================================================================
+5. verdict
+============================================================================
+  CONFIRMED.  The unique 48-block start below 2^241, its word, its
+  terminal residue 35 mod 64, and the four controls (depths 4, 10,
+  12, 20 giving 2, 2, 6, 0 starts).  Hence
+    every positive seed below 2^241 = 3.53e72 exits before
+    completing block 49,
+  which raises yesterday's 2^210 - 4 cutoff by 2^31 = 2.1e9 and
+  sharpens the horizon from about 140 blocks to 49.
+  This supersedes the window-pair exclusion as the best finite
+  result, and it is a direct least-realizer computation: it needs
+  no visit law, only the 2^48 residues.
+  CONFIRMED.  The density consequence and the reduction: a
+  surviving orbit forces the upper density of {C_t = 0} below
+  delta = 5.753%%, while 39 of 46 observed scales (84.8%%) vanish;
+  and liminf (1/T) sum C_t < alpha - 2 = 0.9424746 would settle
+  the restricted claim.
+  THE NEW TARGET, sharpened.  The trivial bound C_t <= unres_t has
+  limiting average exactly 1, missing the threshold by 6 percent,
+  so the three-visit factor 0.2486 must be used.  The job is an
+  AVERAGED discrepancy estimate across scales -- not a bound at
+  any single scale, and not a prediction of which pair vanishes.
+  SCOPE.  Restricted two-block positive-integer claim only.
+
+38/38 checks passed
+EXIT=0

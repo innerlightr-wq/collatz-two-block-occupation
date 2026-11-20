@@ -1,0 +1,977 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1.05in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{problem}{Problem}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\DeclareMathOperator{\rad}{rad}
+\newcommand{\rhotwo}{\rho}
+\newcommand{\Zpos}{\mathbb{Z}_{>0}}
+
+\title{Least Realizers and Occupation in an Aligned\\ Two-Block Collatz Family}
+\author{Elias De Jes\'us\\ \small ORCID 0009-0007-0190-9143}
+\date{19 November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Let $T$ be the Collatz shortcut map on $\Zpos$. Among the $64$ residue classes
+modulo $64$ exactly two carry the aligned six-step parity blocks
+$A=111100$ and $B=111010$, namely $15$ and $7$, and on those classes six steps
+act as the affine maps $F_A(x)=(81x+65)/64$ and $F_B(x)=(81x+73)/64$. We ask
+whether one fixed positive integer can follow these two blocks forever.
+Every finite word in $\{A,B\}$ has infinitely many positive realizers --- they
+form one class modulo $64^q$ --- so the question is not about the existence of
+realizers but about their size: writing $r_{\min}(q)$ for the least positive
+integer completing $q$ blocks, a fixed seed exits if and only if
+$r_{\min}(q)\to\infty$.
+
+Our main tool is an \emph{occupation theorem}: if $b$ positive integers below
+$H$ complete $t$ blocks, then
+$r_{\min}(t+b)\ge (H+\tfrac{73}{17})\rho^{-b}-\tfrac{73}{17}$ with
+$\rho=81/64$, because a seed completing $t+b$ blocks contributes $b+1$ distinct
+$t$-block starts at its first $b+1$ boundaries. With the cutoff
+$H_t=2\cdot 32^t$ and $B_t$ the number of $t$-block starts below $H_t$, it
+follows that
+$\limsup_{t\to\infty}\bigl(t\log_\rho 32-B_t\bigr)=+\infty$ already implies
+$r_{\min}(q)\to\infty$; an arbitrarily slowly growing, unbounded deficit along
+one subsequence suffices.
+
+Holding the origin fixed and averaging over the \emph{depth} instead gives a
+second theorem: for every fixed $\ell$ one has $D_m(0)\le 2^{5m-\ell}$ outside a
+set of upper density at most $3\cdot2^{-2\ell}$, so for every $\varepsilon>0$ the
+set $\{m:D_m(0)>\varepsilon\,2^{5m}\}$ has density zero --- a vanishing
+\emph{fraction} of the $2^{5m}$ candidate prefixes, which still permits an
+absolute count far above $84m$.
+
+As the computational result we determine the exact least realizer at depth
+$49$: it is a $75$-digit integer, $r_{\min}(49)=1.65388\ldots\times 10^{74}$,
+recorded in full in Theorem~\ref{thm:min49}, whose terminal state is
+$31\bmod 64$, so it completes exactly $49$ blocks and then exits. The search is
+exhaustive over all $2^{49}$ words and was confirmed by a second, independent
+computation. Finally we isolate the one
+arithmetic estimate still missing. Writing $D_m(0)=N_{6m}(64^{5m})$, a survivor
+forces $D_m(0)\ge (5\log_\rho 64)\,m-\log_\rho(x_0+\tfrac{73}{17})$ with
+$5\log_\rho 64=88.274237898\ldots$, so a one-sided bound $D_m(0)\le 84m$ along
+infinitely many $m$ would settle the question. The average of $D_m(c)$ over all
+$64^m$ translates $c$ is exactly $1$, but the bin at the origin --- the only one
+that matters --- is not controlled by that average.
+\end{abstract}
+
+\section{The family, and why long words do not settle the question}
+
+\subsection{The shortcut map and the two aligned blocks}
+
+Let $T\colon\Zpos\to\Zpos$ be the Collatz shortcut map,
+\[
+T(x)=\begin{cases} (3x+1)/2, & x \text{ odd},\\ x/2, & x \text{ even}.\end{cases}
+\]
+Iterating $T$ from $x$ we record the parity of the state \emph{before} each
+step; six steps produce a word in $\{0,1\}^6$ and a terminal state.
+
+\begin{lemma}\label{lem:blocks}
+Among the residue classes modulo $64$, the parity word $A=111100$ occurs
+exactly on $15 \bmod 64$ and the parity word $B=111010$ occurs exactly on
+$7\bmod 64$. On these classes six steps of $T$ act as
+\[
+F_A(x)=\frac{81x+65}{64}\quad (x\equiv 15),\qquad
+F_B(x)=\frac{81x+73}{64}\quad (x\equiv 7),
+\]
+and in both cases the numerator is divisible by $64$. We write
+$c_A=65$, $c_B=73$ and $\rho=81/64$.
+\end{lemma}
+
+\begin{proof}
+Each block has four odd steps and two even steps, so six steps multiply by
+$3^4=81$ and divide by $2^6=64$; the additive constant is determined by the
+positions of the odd steps. The residue claim is a finite check over the $64$
+classes, and the maps were verified by direct six-step simulation on the first
+$2000$ members of each class (\texttt{note\_checks.py}, \S1). For instance
+$15\mapsto 23\mapsto 35\mapsto 53\mapsto 80\mapsto 40\mapsto 20$ with parities
+$111100$ and $(81\cdot 15+65)/64=20$, and
+$7\mapsto 11\mapsto 17\mapsto 26\mapsto 13\mapsto 20\mapsto 10$ with parities
+$111010$ and $(81\cdot 7+73)/64=10$.
+\end{proof}
+
+Note that $20$ and $10$ are even. Completing a block says nothing about
+starting the next one: the terminal parity is unrestricted, and a seed
+continues only if its new state again lies in $15$ or $7 \bmod 64$. We call
+such states \emph{admissible boundaries}; they are odd, and on any infinite
+path every boundary is odd.
+
+\begin{definition}
+A positive integer $x$ \emph{realizes} the word $w=w_0w_1\cdots w_{q-1}\in\{A,B\}^q$
+if the boundaries $x_0=x$, $x_{j+1}=F_{w_j}(x_j)$ are all defined, i.e.\ if
+$x_j$ lies in the class prescribed by $w_j$ for every $j<q$. It
+\emph{completes $q$ blocks} if it realizes some word of length $q$.
+\end{definition}
+
+\subsection{One class per word}
+
+Iterating $64x_{j+1}=81x_j+c_{w_j}$ gives the telescoped identity
+\begin{equation}\label{eq:carry}
+64^{q}x_q=81^{q}x_0+C_w,\qquad
+C_w=\sum_{i=0}^{q-1}81^{\,q-1-i}64^{\,i}c_{w_i}.
+\end{equation}
+
+\begin{lemma}\label{lem:class}
+For each $w\in\{A,B\}^q$ the set of positive integers realizing $w$ is exactly
+one arithmetic progression,
+\[
+\{x>0:\ x\equiv r_w \pmod{64^{q}}\},\qquad
+r_w\equiv -81^{-q}C_w \pmod{64^{q}},
+\]
+where $r_w$ denotes the representative in $[0,64^q)$. Moreover
+$r_w\equiv 15$ or $7 \bmod 64$, so $r_w>0$ and $r_w$ is itself the least
+positive realizer of $w$.
+\end{lemma}
+
+\begin{proof}
+Induction on $q$. For $q=1$ the statement is Lemma~\ref{lem:blocks}. Assume it
+for $q-1$. If $x$ realizes $w$ then $x\equiv r_{w_0}\bmod 64$, and
+$x_1=(81x+c_{w_0})/64$ realizes $w_1\cdots w_{q-1}$, hence lies in a single
+class modulo $64^{q-1}$. On the class of $r_{w_0}$ modulo $64^{q}$ the map
+$x\mapsto (81x+c_{w_0})/64$ is a bijection onto a class modulo $64^{q-1}$,
+because $81$ is a unit modulo $64^{q-1}$; pulling back the class of
+$x_1$ gives one class modulo $64^{q}$. Conversely every member of that class
+realizes $w$, since the labels read off at each step depend only on $x$ modulo
+$64^{q}$. Reducing \eqref{eq:carry} modulo $64^q$ gives the formula for $r_w$.
+Finally $r_w\equiv r_{w_0}\bmod 64$ is $15$ or $7$, hence nonzero.
+\end{proof}
+
+For $q\le 3$ we also verified Lemma~\ref{lem:class} by brute force over all
+$64^q$ residues and all $2^q$ words (\texttt{note\_checks.py}, \S1).
+
+\begin{definition}
+$r_{\min}(q)=\min\{r_w:\ w\in\{A,B\}^q\}$ is the least positive integer
+completing $q$ blocks, and for $H>0$
+\[
+N_t(H)=\#\{x\in\Zpos:\ x<H,\ x \text{ completes at least } t \text{ blocks}\}.
+\]
+\end{definition}
+
+Since a seed completing $q+1$ blocks completes $q$ blocks, $r_{\min}$ is
+nondecreasing and $N_t(H)$ is nonincreasing in $t$.
+
+\subsection{Why arbitrarily long words do not answer the question}
+
+The question is open in general, not only for integers: L\'opez and Stoll
+\cite{LopezStoll2009}, who computed $\Phi$ on mechanical words of irrational
+slope, record in their abstract that it is unknown whether any aperiodic parity
+vector $v$ has an eventually periodic --- equivalently rational --- value
+$\Phi(v)$. The two-block family restricts the question to one explicit
+language and to positive integer seeds. Any positive integer surviving forever
+would have an aperiodic parity vector, since its block boundaries strictly
+increase and an eventually periodic parity tail would force a repeated state.
+
+By Lemma~\ref{lem:class} \emph{every} word of every length has infinitely many
+positive realizers. The two-block family therefore never runs out of finite
+solutions, and no counting statement about words can decide the fixed-seed
+question. Equivalently: the nested classes of a fixed infinite word
+$w_0w_1\cdots$ intersect in exactly one $2$-adic integer, so the symbolic model
+always has survivors --- a Cantor set of them --- and the only obstruction to a
+survivor in $\Zpos$ is archimedean. A fixed integer $x$ survives iff it lies in
+all of the shrinking classes, and the moduli $64^q$ grow, so the question is
+whether the least positive element of those classes must grow too.
+
+\begin{proposition}\label{prop:equiv}
+The following are equivalent.
+\begin{enumerate}
+\item No fixed positive integer completes $q$ blocks for every $q$
+      (\emph{fixed-seed exit}).
+\item $r_{\min}(q)\to\infty$ as $q\to\infty$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+If $r_{\min}(q)\to\infty$ and $x$ completed every $q$, then $x\ge r_{\min}(q)$
+for all $q$, which is absurd. Conversely, suppose $r_{\min}$ does not tend to
+infinity. It is nondecreasing, hence bounded by some $R$. For each $q$ choose a
+minimizer $x_q\le R$; as there are finitely many integers below $R$, one value
+$x^\ast$ occurs for infinitely many $q$. Completing $q$ blocks implies
+completing every smaller number of blocks, so $x^\ast$ completes every $q$ and
+is a survivor.
+\end{proof}
+
+\subsection{Relation to the literature}
+
+The parity-vector congruence of Lemma~\ref{lem:class} is the two-block
+specialization of Terras's classical observation that a parity vector of length
+$n$ determines one class modulo $2^n$ \cite{Terras1976}; see
+\cite{Lagarias1985} for the general background.
+
+L\'opez and Stoll \cite{LopezStoll2009} studied the $3x+1$ conjugacy map $\Phi$
+on Sturmian parity words. Every Sturmian parity word has an irrational $2$-adic
+seed; \cite[\S1.2]{DeJesusSturmian2026} traces the independent proofs of that
+statement. The same paper gives a quantitative approximation bound and proves
+transcendence for the characteristic Sturmian words, the two mechanical words
+of intercept $0$ and all of their shifts, for every irrational slope below
+$\gamma^{\ast}=(3+\sqrt5)/(4\log_2 3)=0.8258977\ldots$ --- a range that
+contains the critical slope $\log_3 2$ (Theorem 1.2 and Corollary 1.4 there).
+In the present two-block family each aligned six-bit block carries four ones,
+so every infinite parity word of the family has rational frequency $2/3$ and
+lies outside the Sturmian class. Those results are background here; the proofs
+below depend on none of them.
+
+A hypothetical survivor here has strictly increasing boundaries
+($F_D(x)>x$ for admissible $x>0$), hence an infinite orbit, and its parity
+vector has exactly four ones in each aligned six-step block --- an unaligned
+window need not, as $001110$ occurring in $AB$ at offset $4$ shows --- so the
+limiting density of ones is
+\[
+\tfrac{2}{3}=0.6\overline{6}>\frac{\ln 2}{\ln 3}=0.630929\ldots
+\]
+Monks and Yazinski \cite[Theorem 2.7(b)]{MonksYazinski2004} proved the lower
+half of the corresponding density statement: for $\zeta\in\mathbb{Q}_{\mathrm{odd}}$
+with a divergent orbit, $\liminf(h/\ell)\ge\ln2/\ln3$. That inequality does not
+reach our family, whose density $2/3$ lies \emph{above} the critical value.
+L\'opez and Stoll \cite[Theorem 1]{LopezStoll2021} state the two-sided form:
+\emph{if the trajectory of some $\zeta\in\mathbb{Q}_{\mathrm{odd}}$ is divergent
+(that is, if the orbit is an infinite set), then}
+\[
+\liminf_{\ell\to\infty}\frac{h}{\ell}=\frac{\ln 2}{\ln 3},
+\]
+where $h$ counts ones among the first $\ell$ digits of the parity vector,
+$\mathbb{Q}_{\mathrm{odd}}$ is the ring of rationals with odd denominator, and
+the lower limit is written $\lim$ in the preprint's own notation.
+A positive integer lies in $\mathbb{Q}_{\mathrm{odd}}$, so fixed-seed exit for
+our family is a consequence of that theorem; note that the weaker constraint
+stated before it there, which excludes densities \emph{below} $\ln2/\ln3$, does
+not apply, since $2/3$ lies above. Reference \cite{LopezStoll2021} is an
+unrefereed preprint, and in this author's reading its \S6 argument passes from
+the convergence of a real series $\Phi_{\mathbb{R}}$ to a conclusion about the
+$2$-adic conjugacy $\Phi$ at a point where the two objects differ; we do not
+rely on it here. The purpose of the present note is an independent and
+elementary route to this consequence for aligned positive integers, and the
+identification of the single estimate that such a route still needs.
+
+\section{The occupation theorem}
+
+\begin{lemma}[growth]\label{lem:growth}
+Put $Y(x)=17x+73$. For admissible $x$,
+\[
+64\,Y(F_B(x))=81\,Y(x),\qquad 64\,Y(F_A(x))=81\,Y(x)-136 .
+\]
+Consequently $Y(x_{j+1})\le\rho\,Y(x_j)$ along any realized path, with equality
+exactly at $B$ blocks, and
+\begin{equation}\label{eq:growth}
+x_j+\tfrac{73}{17}\ \le\ \rho^{\,j}\bigl(x_0+\tfrac{73}{17}\bigr).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+From $64x'=81x+c$ we get $64(17x'+73)=81(17x+73)+17c-17\cdot 73$, which is
+$81Y(x)$ for $c=73$ and $81Y(x)-136$ for $c=65$. Dividing \eqref{eq:growth} by
+$17$ and iterating gives the display. The identities were checked exactly on
+admissible states including the two seeds of \S3 (\texttt{note\_checks.py},
+\S2).
+\end{proof}
+
+\begin{theorem}[occupation]\label{thm:occ}
+Let $t\ge 1$, $H>0$ and $b=N_t(H)$. Then
+\begin{equation}\label{eq:occ}
+r_{\min}(t+b)\ \ge\ \Bigl(H+\tfrac{73}{17}\Bigr)\rho^{-b}-\tfrac{73}{17}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+If no positive integer completes $t+b$ blocks, then $r_{\min}(t+b)=\infty$ and
+there is nothing to prove. Otherwise let $x_0$ complete $t+b$ blocks, with
+boundaries $x_0<x_1<\cdots<x_b$ (strictly increasing, since $F_D(x)>x$ for
+admissible $x>0$). For $0\le j\le b$ the state $x_j$ completes $t+b-j\ge t$
+blocks, so $x_0,\dots,x_b$ are $b+1$ distinct integers each completing at least
+$t$ blocks. If $x_b<H$ then all $b+1$ of them are $<H$, contradicting
+$N_t(H)=b$, which counts the integers \emph{strictly} below $H$. Hence
+$x_b\ge H$, and \eqref{eq:growth} with $j=b$ gives
+$H+\tfrac{73}{17}\le x_b+\tfrac{73}{17}\le\rho^{b}(x_0+\tfrac{73}{17})$.
+Rearranging and minimizing over $x_0$ yields \eqref{eq:occ}.
+\end{proof}
+
+Three features of the statement deserve emphasis. If $b=0$ then
+\eqref{eq:occ} reads $r_{\min}(t)\ge H$, which is the definition of $N_t(H)=0$,
+so the theorem interpolates between that trivial case and large $b$. The
+strictness of the cutoff in $N_t(H)$ is used exactly once, to exclude
+$x_b<H$. And the conclusion concerns depth $t+b$, not depth $t$: occupation
+below $H$ at depth $t$ buys a floor only after $b$ further blocks, which is
+precisely the trade the next corollary exploits.
+
+\begin{definition}
+$H_t=2\cdot 32^t=2^{5t+1}$ and $B_t=N_t(H_t)$.
+\end{definition}
+
+\begin{corollary}\label{cor:suff}
+If
+\[
+\limsup_{t\to\infty}\bigl(t\log_\rho 32-B_t\bigr)=+\infty,
+\]
+then $r_{\min}(q)\to\infty$, i.e.\ fixed-seed exit holds.
+\end{corollary}
+
+\begin{proof}
+Theorem~\ref{thm:occ} with $H=H_t$ and $32^t=\rho^{\,t\log_\rho 32}$ gives
+\[
+r_{\min}(t+B_t)\ \ge\ 2\rho^{\,t\log_\rho 32-B_t}-\tfrac{73}{17}.
+\]
+Along a subsequence on which the exponent tends to $+\infty$ the right-hand
+side is unbounded, and $t+B_t\to\infty$; since $r_{\min}$ is nondecreasing,
+$r_{\min}(q)\to\infty$. Proposition~\ref{prop:equiv} converts this into
+fixed-seed exit.
+\end{proof}
+
+\begin{remark}
+No rate is required. Because $r_{\min}$ is monotone, an unbounded deficit along
+one sparse subsequence propagates to the full limit, and a deficit growing as
+slowly as $\log\log t$ is enough --- it yields a floor
+$2\rho^{\log\log t}$, which is unbounded although it grows more slowly than any
+power of $t$. Two convenient strengthenings: a linear deficit, i.e.
+$B_t\le 14t$ for arbitrarily large $t$ --- admissible since
+$\log_\rho 32=14.712372983\ldots$, certified by $3^{56}<2^{89}$ --- gives the
+exponential floor $2\,(2^{89}/3^{56})^{t}-\tfrac{73}{17}
+=2\cdot 1.1827129\ldots^{\,t}-\tfrac{73}{17}$, the additive constant being the
+one carried by Theorem~\ref{thm:occ}; and any
+finite value of $\liminf_T T^{-1}\sum_{t\le T}B_t$ gives infinitely many $t$
+with $B_t=O(1)$, hence a floor of order $32^t$ at depth $t+O(1)$.
+\end{remark}
+
+\section{The sharp finite result: depth 49}
+
+\begin{theorem}\label{thm:min49}
+The least positive integer completing $49$ blocks is the $75$-digit integer
+\[
+r_{\min}(49)=
+\begin{aligned}[t]
+&1653883058860887846303845081\\
+&\quad 3920236748721560039331093621\\
+&\quad\quad 4638366216510132943 .
+\end{aligned}
+\]
+Its word is
+\[
+\texttt{AABAAABABAAAAAABABABAABBAABBABBBBBABABBBABABABBAA},
+\]
+and its terminal state is
+\begin{align*}
+&1703930977523477571221341143505225157486881936\\
+&\qquad 2776884297752061966903500567997727\ \equiv\ 31 \pmod{64},
+\end{align*}
+which is neither $15$ nor $7$; hence $r_{\min}(49)$ completes exactly $49$
+blocks and then exits.
+\end{theorem}
+
+\begin{proof}[Computation]
+By Lemma~\ref{lem:class}, $r_{\min}(49)=\min_w r_w$ over the $2^{49}$ words,
+where $r_w$ is the representative in $[0,64^{49})$ of
+$-81^{-49}C_w$. Writing $u_i=64^{i}81^{-i-1}\bmod 64^{49}$, we have
+$r_w\equiv \mathrm{base}+\sum_{i\in B(w)}s_i$ with
+$\mathrm{base}=-65\sum_i u_i$ and $s_i=-8u_i$, where $B(w)$ is the set of
+positions carrying $B$; all arithmetic is modulo $M=64^{49}=2^{294}$.
+
+Split the $49$ positions into two blocks and let $\mathcal{A}$, $\mathcal{B}$
+be the sets of subset sums of $s_i$ over each block, so that every word
+corresponds to exactly one pair $(a,b)\in\mathcal{A}\times\mathcal{B}$ and
+$r_w=(\mathrm{base}+a+b)\bmod M$. Store $\mathcal{B}$ sorted. For fixed $a$
+put $v=(\mathrm{base}+a)\bmod M$; then $(v+b)\bmod M$ equals $v+b$ if
+$v+b<M$ and $v+b-M$ otherwise, and since $v+b<2M$ always, the minimum over
+$b\in\mathcal{B}$ is attained either at the least element of $\mathcal{B}$
+(unwrapped branch) or at the least element $\ge M-v$ (wrapped branch). Taking
+the better of these two candidates for every $a$ therefore examines, for each
+$a$, the best $b$; as every word is some $(a,b)$, the search is exhaustive over
+all $2^{49}$ words. Each candidate is found by one binary search, so the cost
+is $|\mathcal{A}|$ searches in a table of size $|\mathcal{B}|$.
+
+This was run with $|\mathcal{B}|=2^{24}$ (positions $25,\dots,48$) and
+$|\mathcal{A}|=2^{25}$ (positions $0,\dots,24$): \texttt{min49.py}, $95.7$
+seconds, about $1.3$\,GiB, log \texttt{min49.log}. The value above was the
+running minimum after the first eighth of the search and was not improved.
+\end{proof}
+
+\paragraph{Witness versus minimality.} The two halves of
+Theorem~\ref{thm:min49} are of different character and were checked
+separately. That the stated integer \emph{is} a realizer is a witness
+property, confirmed by replaying it block by block and, independently, by
+replaying it through the $294$ individual shortcut steps with parities recorded
+before each step; both routes return the same word and the same terminal state
+$31\bmod 64$ (\texttt{note\_checks.py}, \S3). That it is the \emph{least} such
+integer is an exhaustive claim. We re-verified it by a second computation of a
+different shape: instead of searching for a minimum, \texttt{verify49.py}
+counts every $49$-block start strictly below $r_{\min}(49)+1$ by an exact
+cyclic-interval test, using the complementary split (stored positions
+$0,\dots,23$, iterated positions $24,\dots,48$). It returns exactly one start,
+the value above ($93.5$ seconds, log \texttt{verify49.log}).
+
+\begin{proposition}[control at depth 48]\label{prop:48}
+Exactly one positive integer below $2^{241}$ completes $48$ blocks, namely the
+$72$-digit
+\[
+\begin{aligned}[t]
+&1007663375116395146880531925190\\
+&\quad 38392361740472623921585501397359010728775,
+\end{aligned}
+\]
+with word \texttt{BBBBABABAAAABABBBBBBAABABABBABABBBBAAAAAABABBABB} and
+terminal state
+\begin{align*}
+&8202715119948079618738700704624290008\\
+&\qquad 326907991008520856030001878734909577507\ \equiv\ 35\pmod{64}.
+\end{align*}
+Consequently every positive integer below
+$2^{241}=3.53\ldots\times 10^{72}$ exits before completing block $49$.
+\end{proposition}
+
+All arithmetic here is modulo $64^{48}=2^{288}$, as in the depth-49 search it
+is modulo $64^{49}=2^{294}$; both implementations use that exact modulus, with
+no padded precision. This is a count rather than a minimum, and it was obtained
+by meet-in-the-middle over the $2^{48}$ residues in two independent
+implementations --- one using the
+fact that $v_2(s_i)=3+6i$ makes the late switches multiples of $64^{24}$, one
+branching on the first six letters and testing an exact cyclic interval on full
+residues modulo $2^{288}$ --- which agree (\texttt{note\_verifier.py},
+\texttt{independent48.py}; logs in \texttt{verification/logs}). It is
+consistent with and weaker than Theorem~\ref{thm:min49}, since
+$r_{\min}(49)=1.65\ldots\times 10^{74}>2^{241}$; we record it because it is the
+cheapest certificate of the same shape and because its single start is the
+$m=8$ entry of Table~\ref{tab:bins}.
+
+\section{The missing estimate}
+
+\subsection{A balanced split}
+
+Let $t=6m$ and take the cutoff $H=64^{5m}=2^{30m}=32^{t}$, which is $H_t/2$.
+Set
+\[
+D_m(0)=N_{6m}\bigl(64^{5m}\bigr).
+\]
+
+\begin{proposition}\label{prop:nec}
+If $x_0\in\Zpos$ completes every block, then for every $m\ge 1$
+\begin{equation}\label{eq:nec}
+D_m(0)\ \ge\ (5\log_\rho 64)\,m-\log_\rho\Bigl(x_0+\tfrac{73}{17}\Bigr),
+\qquad 5\log_\rho 64=88.274237898\ldots
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Put $b=D_m(0)$. The survivor completes $6m+b$ blocks, so by the argument of
+Theorem~\ref{thm:occ} its $b$-th boundary satisfies $x_b\ge 64^{5m}$, and
+\eqref{eq:growth} gives $64^{5m}\le\rho^{b}(x_0+\tfrac{73}{17})$. Taking
+$\log_\rho$ and using $\log_\rho 64^{5m}=5m\log_\rho 64$ gives \eqref{eq:nec}.
+\end{proof}
+
+\begin{corollary}\label{cor:84}
+If $D_m(0)\le 84m$ for infinitely many $m$, then fixed-seed exit holds, i.e.
+$r_{\min}(q)\to\infty$.
+\end{corollary}
+
+\begin{proof}
+For such $m$, \eqref{eq:nec} forces
+$\log_\rho(x_0+\tfrac{73}{17})\ge (5\log_\rho 64-84)m=4.2742\ldots m$, which is
+unbounded, contradicting the fixedness of $x_0$. The admissibility of the
+constant $84$ is the exact inequality $\rho^{84}<64^{5}$, equivalently
+$3^{336}<2^{534}$, verified as an integer comparison
+(\texttt{note\_checks.py}, \S2). Proposition~\ref{prop:equiv} converts the
+absence of a survivor into $r_{\min}(q)\to\infty$.
+\end{proof}
+
+The constant $84$ is a benchmark only: any constant strictly below
+$5\log_\rho 64=88.2742\ldots$ serves, and by the remark after
+Corollary~\ref{cor:suff} so does any sublinear bound, or indeed any unbounded
+deficit.
+
+Why this cutoff is the natural one: $6m=5m+m$ splits the depth so that the
+cutoff $64^{5m}$ is exactly the modulus of the first $5m$ blocks.
+
+\begin{lemma}\label{lem:onecand}
+The $2^{5m}$ words of length $5m$ have pairwise distinct classes modulo
+$64^{5m}$. Hence each word $u$ has exactly one realizer $r_u$ below $64^{5m}$,
+and
+\[
+D_m(0)=\#\bigl\{u\in\{A,B\}^{5m}:\ v_u \bmod 64^{m}\in S_m\bigr\},
+\]
+where $v_u$ is the terminal state of $r_u$ after $5m$ blocks and
+$S_m=\{r_w\bmod 64^m: w\in\{A,B\}^m\}$, of size $2^m$.
+\end{lemma}
+
+\begin{proof}
+Distinctness: if $u\ne u'$ first differ at position $k$, then
+$r_u-r_{u'}\equiv\pm s_k+\sum_{i>k}\pm s_i$, and $v_2(s_i)=3+6i$, so the
+difference has $2$-adic valuation exactly $3+6k<6\cdot 5m$ and is nonzero. By
+Lemma~\ref{lem:class} the realizers of $u$ form one class modulo $64^{5m}$,
+whose unique representative below $64^{5m}$ is $r_u>0$. Such a representative
+completes $6m$ blocks precisely if its state after $5m$ blocks admits $m$
+further blocks, i.e.\ if $v_u$ lies in one of the $2^m$ classes modulo $64^m$
+of Lemma~\ref{lem:class} at depth $m$.
+\end{proof}
+
+\subsection{The mean over translates is one, and misses the point}
+
+For $c\in\mathbb{Z}/64^m$ let
+$D_m(c)=\#\{u\in\{A,B\}^{5m}: v_u-c \bmod 64^m\in S_m\}$, so that $D_m(0)$ is
+the quantity in Lemma~\ref{lem:onecand}.
+
+\begin{lemma}\label{lem:mean}
+$\displaystyle\sum_{c\in\mathbb{Z}/64^m}D_m(c)=2^{5m}\cdot 2^{m}=64^{m}$, so
+the mean of $D_m(c)$ over all $64^m$ translates is exactly $1$.
+\end{lemma}
+
+\begin{proof}
+Double counting: each of the $2^{5m}$ words $u$ contributes to exactly
+$|S_m|=2^m$ translates $c$, namely $c\equiv v_u-s$ for $s\in S_m$. Hence the
+sum is $2^{5m}2^m=2^{6m}=64^m$, and dividing by the number of translates gives
+mean $1$.
+\end{proof}
+
+This is the exact sense in which $D_m(0)\le 84m$ is "expected": $84m$ exceeds
+the mean by a factor $84m$. But Lemma~\ref{lem:mean} is invariant under every
+translation of the target set and therefore cannot see \emph{which} translate
+is the survivor set; the bin at the origin is the one translate defined by the
+same arithmetic that produces the endpoints $v_u$, and nothing in the average
+constrains it. The spread is real and not small: computing the full translate
+table (\texttt{note\_checks.py}, \S4) gives
+\[
+\max_c D_m(c)=3,\ 6,\ 8 \quad\text{for } m=1,2,3,
+\]
+against the mean $1$, while $D_m(0)=2,2,3$.
+
+\begin{remark}[where the obstruction sits]
+From \eqref{eq:carry} with $q=5m$,
+\[
+v_u \bmod 64^m=\Bigl\lfloor\frac{81^{5m}r_u+C_u}{2^{30m}}\Bigr\rfloor \bmod 2^{6m},
+\qquad
+\frac{65\,(81^{5m}-64^{5m})}{17}\le C_u\le\frac{73\,(81^{5m}-64^{5m})}{17},
+\]
+so the carry is pinned by the word and the deciding quantity is the window of
+bits $30m,\dots,36m$ of the product $81^{5m}r_u$. The low $30m$ bits of that
+product encode the prefix $u$ (the $2$-adic side) and the top bits are what the
+cutoff controls (the archimedean side); a match is decided by the bits in
+between, which neither side pins. Any proof of a bound on $D_m(0)$ must say
+something about those middle bits.
+\end{remark}
+
+\subsection{Holding the origin fixed and varying the depth}
+
+Lemma~\ref{lem:mean} averages over the $64^m$ translates at a \emph{fixed}
+depth, and is blind to which translate is the survivor set. The estimate of
+this subsection does the opposite: it keeps the bin at the origin and averages
+over the \emph{depth}. The two are independent, and only the second says
+anything about $D_m(0)$ itself.
+
+\begin{theorem}[depth averaging]\label{thm:depthavg}
+Fix an integer $\ell\ge1$ and put $s=\ell$. Then
+\[
+D_m(0)\ \le\ 2^{\,5m-\ell}
+\]
+for every $m\ge\ell$ outside a set of upper density at most $3\cdot2^{-2\ell}$.
+\end{theorem}
+
+\begin{proof}
+Write $p=5m$, $n=p-\ell$, $L=64^{\ell}$, $M=64^{\ell+s}$ and $a=81^{\,n}\bmod M$.
+
+\emph{Prefix lift.} By Lemma~\ref{lem:class} the starts below $64^{p}$ in the
+class of a length-$n$ prefix $u$ are exactly $r_u+64^{n}k$ with $0\le k<L$, and
+by the computation of Lemma~\ref{lem:onecand} the state after $n$ blocks is
+$v_u+81^{n}k$. Since $s\le m$, a start counted by $D_m(0)$ completes in
+particular $n+\ell+s$ blocks, which requires
+\[
+v_u+81^{n}k\in R_{\ell+s}\pmod M,\qquad\text{i.e.}\qquad
+k\in a^{-1}\bigl(R_{\ell+s}-v_u\bigr)\pmod M .
+\]
+The admissible $k$ lie in a window of $L$ consecutive residues, and
+$a^{-1}(R_{\ell+s}-v_u)$ is a rotation of $a^{-1}R_{\ell+s}$, so their number is
+at most
+\[
+K_{\ell,s}(a):=\max_{\text{windows of }L\text{ consecutive residues}}
+\#\bigl(a^{-1}R_{\ell+s}\cap\text{window}\bigr).
+\]
+Summing over the $2^{\,n}=2^{\,5m-\ell}$ prefixes,
+$D_m(0)\le 2^{\,5m-\ell}K_{\ell,s}(81^{\,5m-\ell})$.
+
+\emph{Phase cycle.} Since $81-1=80$ has $v_2=4$ exactly, the order of $81$
+modulo $2^{j}$ is $2^{\,j-4}$ for $j\ge4$, so $81$ generates the subgroup of
+units congruent to $1$ modulo $16$. Here $M=2^{6(\ell+s)}$ and that subgroup
+has order $P_\ell:=2^{6(\ell+s)-4}$. The stride is $5$, which is odd, and the
+order is a power of two, so $m\mapsto 81^{\,5m-\ell}\bmod M$ runs through
+\emph{every} such unit, with period $P_\ell$. Consequently
+$K_{\ell,s}(81^{\,5m-\ell})$ depends only on $m\bmod P_\ell$: the set of $m$ at
+which it exceeds $1$ is a union of residue classes modulo $P_\ell$, so its
+density exists and equals the proportion of bad units.
+
+\emph{Pair estimate.} $K_{\ell,s}(a)\ge2$ exactly when two points of
+$a^{-1}R_{\ell+s}$ lie at circular distance less than $L$. Let $\Delta$ be the
+difference of two distinct elements of $R_{\ell+s}$; as in
+Proposition~\ref{prop:valbound}, $v:=v_2(\Delta)=3+6i$ where $i$ is the first
+index at which the two words differ. If $v\ge6\ell$ then $u\Delta$ is a nonzero
+multiple of $2^{6\ell}=L$ for every unit $u$, hence at circular distance at
+least $L$ from $0$. Otherwise $v\le6\ell-3$, and as $u$ runs over the units
+congruent to $1$ modulo $16$ the products $u\Delta$ run uniformly over a coset
+of spacing $2^{\,v+4}$ in $\mathbb{Z}/M$. That coset meets the interval
+$(-L,L)$ in at most $(2L-2)/2^{\,v+4}+1$ points, so the proportion of units for
+which this one pair is bad is at most
+\[
+\frac{2L}{M}+\frac{2^{\,v+4}}{M}\ \le\ \frac{4L}{M},
+\qquad\text{using } 2^{\,v+4}\le 2^{\,6\ell+1}=2L .
+\]
+
+\emph{Union bound.} $R_{\ell+s}$ has $2^{\ell+s}$ elements, hence fewer than
+$2^{\,2(\ell+s)-1}$ unordered pairs, and the proportion of bad units is at most
+\[
+2^{\,2(\ell+s)-1}\cdot\frac{6L}{M}=3\cdot2^{\,2\ell-4s},
+\]
+where the safe constant $6L/M$ absorbs the estimate above. With $s=\ell$ this
+is $3\cdot2^{-2\ell}$. At every $m$ outside that set $K_{\ell,s}=1$, and the
+prefix lift gives $D_m(0)\le2^{\,5m-\ell}$.
+
+\emph{Small moduli and finite exceptions.} The argument uses $s\le m$ (only $m$
+blocks remain beyond depth $5m$) and $\ell<5m$; with $s=\ell$ both hold as soon
+as $m\ge\ell$, and $j=6(\ell+s)\ge12>4$ makes the order computation valid for
+every $\ell\ge1$. The finitely many $m<\ell$ are absorbed into the exceptional
+set without changing its density.
+\end{proof}
+
+\begin{corollary}\label{cor:dens}
+For every $\varepsilon>0$,
+$\operatorname{dens}\{m:D_m(0)>\varepsilon\,2^{5m}\}=0$.
+\end{corollary}
+
+\begin{proof}
+Given $\varepsilon$, choose $\ell_0$ with $2^{-\ell_0}\le\varepsilon$. For
+\emph{every} $\ell\ge\ell_0$,
+$\{m:D_m(0)>\varepsilon2^{5m}\}\subseteq\{m:D_m(0)>2^{\,5m-\ell}\}$, which by
+Theorem~\ref{thm:depthavg} has upper density at most $3\cdot2^{-2\ell}$.
+Letting $\ell\to\infty$ gives upper density $0$. The order of quantifiers is:
+$\varepsilon$ first, then $\ell$ depending on $\varepsilon$ alone, then $m$.
+\end{proof}
+
+\begin{remark}
+A vanishing \emph{fraction} is not a small \emph{count}: $2^{\,5m-\ell}$ exceeds
+$84m$ for every fixed $\ell$ once $m$ is large, so Theorem~\ref{thm:depthavg}
+bounds the proportion of surviving prefixes and leaves the absolute count
+exponentially far from the target of Corollary~\ref{cor:84}.
+\end{remark}
+
+\begin{remark}
+The union bound is loose. An exact census of the phases
+(\texttt{averaging.py}; see Appendix~\ref{app:pkg}) gives a bad proportion of
+$24/256=0.0938$ at $\ell=s=1$ against the bound $0.75$, and
+$17912/1048576=0.0171$ at $\ell=s=2$ against $0.1875$ --- a factor $8$ to $11$.
+The method also survives past its nominal range: at $(\ell,s)=(3,1)$ the union
+bound is vacuous, yet $23.8\%$ of depths are still good.
+\end{remark}
+
+\subsection{What first-difference valuations alone can prove}
+
+\begin{proposition}\label{prop:valbound}
+$B_t\le 2^{K}$ with $K=\lceil (5t-2)/6\rceil$: a $t$-block start below
+$H_t=2^{5t+1}$ is determined by the first $K$ letters of its word.
+\end{proposition}
+
+\begin{proof}
+If two starts below $H_t$ have words first differing at position $k$, then as
+in Lemma~\ref{lem:onecand} their difference is a nonzero multiple of
+$2^{3+6k}$, while both lie in $[0,2^{5t+1})$, so $2^{3+6k}<2^{5t+1}$ and
+$k<(5t-2)/6$. Hence distinct starts have distinct prefixes of length $K$.
+\end{proof}
+
+Refining by prefix length $k$ gives $B_t\le 2^{5t-2-5k}+2^{k}$, optimized at
+$k\approx(5t-2)/6$ as well, so $2^{5t/6}$ is the ceiling of this argument and
+not an artifact of one proof. The ceiling is attained by a family sharing all
+the data the argument uses.
+
+\begin{proposition}\label{prop:family}
+Let $\mathcal{F}_t=\{7+8\sum_{i<t}\epsilon_i 64^{i}:\epsilon\in\{0,1\}^t\}$.
+Then $\mathcal{F}_t$ has the admissible residues $7,15\bmod 64$, is nested in
+the same sense (a prefix of the $\epsilon_i$ fixes the value modulo $64^k$),
+has first-difference valuations $v_2=3+6i$, and contains exactly
+$2^{\lceil (5t-2)/6\rceil}$ members below $2^{5t+1}$.
+\end{proposition}
+
+\begin{proof}
+Since $8\cdot 64^{i}=2^{3+6i}$, the members below $2^{5t+1}$ are precisely
+those with $\epsilon_i=0$ whenever $3+6i\ge 5t+1$: any single such term already
+exceeds the cutoff, while the sum of all terms with $3+6i\le 5t$ is at most
+$7+2^{5t}\cdot\frac{64}{63}<2^{5t+1}$. Hence the count is
+$2^{\#\{i:3+6i\le 5t\}}=2^{\lfloor (5t-3)/6\rfloor+1}=2^{\lceil (5t-2)/6\rceil}$,
+using $\lfloor (n-1)/6\rfloor+1=\lceil n/6\rceil$.
+\end{proof}
+
+Proposition~\ref{prop:family} was verified for $t=3,\dots,14$, rounding
+included, and the floor/ceiling identity for $t=3,\dots,59$
+(\texttt{note\_checks.py}, \S4). It follows that admissible residues, nesting
+and first-difference valuations together cannot give any bound better than
+$2^{5t/6}$ --- in particular they cannot give $84m$ or $14t$ --- so any proof of
+the missing estimate must use arithmetic specific to the block maps.
+
+\subsection{The finite counts}
+
+Table~\ref{tab:bins} lists $D_m(0)$ for $m\le 8$; Table~\ref{tab:Bt} lists
+$B_t$ for $t\le 40$. Every value is far below the respective allowance
+($84m$, $14t$), and both sequences hover around their means ($1$ and $2$).
+These are finite counts and are evidence only; they say nothing about
+unbounded $m$ or $t$.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{lrrrrrrrr}
+\toprule
+$m$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8\\
+$D_m(0)$ & 2 & 2 & 3 & 0 & 0 & 1 & 2 & 1\\
+allowance $84m$ & 84 & 168 & 252 & 336 & 420 & 504 & 588 & 672\\
+\bottomrule
+\end{tabular}
+\caption{The distinguished bin. $m\le 6$ from \texttt{note\_checks.py};
+$m=7$ from \texttt{m7.py}; $m=8$ from Proposition~\ref{prop:48}, whose unique
+start below $2^{241}$ is in fact below $2^{240}=64^{40}$.}
+\label{tab:bins}
+\end{table}
+
+\begin{table}[ht]
+\centering\footnotesize
+\setlength{\tabcolsep}{3.1pt}
+\begin{tabular}{l*{19}{r}}
+\toprule
+$t$   & 3&4&5&6&7&8&9&10&11&12&13&14&15&16&17&18&19&20&21\\
+$B_t$ & 2&2&1&2&2&4&1&2&1&6&0&1&2&2&1&4&2&0&0\\
+\midrule
+$t$   & 22&23&24&25&26&27&28&29&30&31&32&33&34&35&36&37&38&39&40\\
+$B_t$ & 3&0&1&1&1&1&3&2&0&1&2&2&3&2&3&2&1&1&1\\
+\bottomrule
+\end{tabular}
+\caption{$B_t=N_t(2\cdot 32^t)$ for $3\le t\le 40$ (\texttt{windowcount.py}).
+The sum is $65$, the mean $65/38=1.7105\ldots$ against the translate mean $2$,
+and the maximum is $6$ at $t=12$ against the allowance $14\cdot 12=168$. Also
+$B_{48}=1$.}
+\label{tab:Bt}
+\end{table}
+
+\section{A second expression for the same count}\label{sec:split}
+
+The split used so far is $6m=5m+m$: a prefix of $5m$ blocks whose least
+realizer is compared with the cutoff, and $m$ further blocks. A balanced split
+$6m=3m+3m$ expresses the same number as a count of ordered pairs, and converts
+it into a correlation between two explicit lists.
+
+Throughout this section $n=3m$, $B=64^{\,3m}$, $Q=B^{2}=64^{\,6m}$,
+$W=64^{\,2m}$, $H=BW=64^{\,5m}$ and $J=6m$, so that $B/W=2^{J}$. Write
+$[z]_M$ for the least nonnegative residue, put $u_i=[64^{i}81^{-i-1}]_Q$ for
+$0\le i<2n$, and for half-words $s,t\in\{A,B\}^{n}$ set
+\[
+P_s=\Bigl[-\sum_{i<n}c_{s_i}u_i\Bigr]_Q,\qquad
+T_t=\Bigl[\ \sum_{i<n}c_{t_i}u_{n+i}\Bigr]_Q,\qquad
+a_s=\Bigl\lfloor \frac{P_s}{B}\Bigr\rfloor,\qquad b_t=\frac{T_t}{B}.
+\]
+
+\begin{proposition}[half-word reduction]\label{prop:halfword}
+$B$ divides $T_t$ for every $t$; the least realizer of the concatenated word
+$st$ satisfies
+\[
+r_{st}=(P_s\bmod B)+B\,[\,a_s-b_t\,]_B ;
+\]
+and
+\[
+D_m(0)=\#\bigl\{(s,t)\in\{A,B\}^{n}\times\{A,B\}^{n}\ :\ [\,a_s-b_t\,]_B<W\bigr\},
+\]
+counted as ordered pairs, the values $a_s$ being taken with multiplicity.
+\end{proposition}
+
+\begin{proof}
+$v_2(u_{n+i})=6(n+i)\ge6n$, so $B=2^{6n}$ divides each $u_{n+i}$ and hence
+$T_t$; thus $b_t$ is an integer. By Lemma~\ref{lem:class},
+$r_{st}=[-\sum_{i<2n}c_{(st)_i}u_i]_Q=[P_s-T_t]_Q$. Write $P_s=Ba_s+\rho$ with
+$0\le\rho<B$ and $T_t=Bb_t$; then $P_s-T_t\equiv B(a_s-b_t)+\rho$, and since
+$0\le\rho<B$ and $0\le B[a_s-b_t]_B<B^{2}=Q$ the displayed expression is the
+least residue. Finally $r_{st}<H=BW$ if and only if $[a_s-b_t]_B<W$, because
+$\rho<B$ makes the two cases $[a_s-b_t]_B\le W-1$ and $[a_s-b_t]_B\ge W$
+decide the inequality; the correspondence $st\mapsto(s,t)$ is a bijection onto
+ordered pairs, and distinct half-words may share a value of $a_s$, which is why
+multiplicities are retained.
+\end{proof}
+
+Partition $[0,B)$ at level $j$ into $2^{j}$ half-open bins of equal width, so
+that level $J$ has width $W$. Let $A$ be the multiset $(a_s)_s$ and let $Z$
+contain both $b_t$ and $[b_t+W]_B$ for every $t$. A pair counted by
+Proposition~\ref{prop:halfword} has $a_s\in[b_t,b_t+W)$, which meets the bin of
+$b_t$ and the next bin cyclically, so with
+$C_j=\sum_{I\text{ at level }j}A(I)Z(I)$ we get $D_m(0)\le C_J$. For a bin $I$
+at level $j$ with children $I_{\mathrm{left}},I_{\mathrm{right}}$ put
+$\Delta A(I)=A(I_{\mathrm{left}})-A(I_{\mathrm{right}})$ and likewise for $Z$.
+
+\begin{proposition}\label{prop:bins}
+With $e_j:=2^{\,j-J}\sum_{I\text{ at level }j}\Delta A(I)\Delta Z(I)$,
+\[
+D_m(0)\ \le\ C_J\ =\ 2+\sum_{j=0}^{J-1}e_j .
+\]
+\end{proposition}
+
+\begin{proof}
+For one parent, $A(I_L)Z(I_L)+A(I_R)Z(I_R)=\tfrac12\bigl(A(I)Z(I)+\Delta
+A(I)\Delta Z(I)\bigr)$, by expanding $A_{L,R}=(A\pm\Delta A)/2$. Summing over
+level $j$ gives $C_{j+1}=\tfrac12(C_j+G_j)$ with
+$G_j=\sum_{I}\Delta A(I)\Delta Z(I)$, so
+$C_J=2^{-J}C_0+\sum_{j<J}2^{\,j-J}G_j$. Here
+$C_0=|A|\,|Z|=2^{\,3m}\cdot2^{\,3m+1}=2^{\,6m+1}$ and $2^{-J}=2^{-6m}$, which
+gives the constant $2$.
+\end{proof}
+
+Since $J=6m$, the test $e_j\le13$ at every level would give $C_J\le2+78m\le84m$
+and hence, by Corollary~\ref{cor:84}, fixed-seed exit. That test is verified
+only at the six depths of Table~\ref{tab:split}.
+
+\paragraph{A worked example: $m=2$, $j=9$.} Here $B=2^{36}$, $W=2^{24}$,
+$J=12$, $|A|=64$ and $|Z|=128$. The children sit at level $10$, in bins of
+width $2^{26}$: $125$ of them contain a value of $A$ or of $Z$, and $78$
+contain a value of $Z$. These lie under $110$ occupied parent bins at level
+$9$. Summing the suffix imbalances over those parents gives exactly
+\[
+\sum_{I}\Delta Z(I)=0,
+\]
+yet the products $\Delta A(I)\Delta Z(I)$ are nonnegative at every parent but
+one and total $G_9=17$, so $e_9=17/2^{\,12-9}=17/8$ --- the largest $e_j$ at
+this depth. The thirteen contributing parents carry products
+$+2,+1,+1,+1,+1,+2,+2,+2,+2,+2,+2,+1$ and $-2$.
+
+Exact balance after summing over parents therefore coexists with a positive
+correlation inside them. The mechanism is visible on each side. Pair each suffix having $A$ at
+position $i$ with the suffix obtained by changing that letter to $B$, keeping
+the choice of $W$-shift fixed. The paired residues differ by the \emph{exact}
+integer $\tau_i=8u_{n+i}/B$ modulo $B$, with $v_2(\tau_i)=3+6i$. Whenever that
+difference is an odd multiple of the child-bin width, the partners lie in bins
+of opposite parity, so the two contributions cancel and $\sum_I\Delta Z(I)=0$.
+The additional shift by $W$ produces the same cancellation at $j=J-1$. The
+pairing is an involution, not a translation: a fixed shift by $+\tau_i$ need
+not preserve $Z$. At $m=1$, where $B=262144$ and $\tau_0\equiv116232$, both
+$25921$ and $25921+\tau_0=142153$ lie in $Z$ while $25921+2\tau_0=258385$ does
+not. So the cancellation is of signed contributions in pairs, and
+$\Delta Z(I)$ stays nonzero on many individual bins ($54$ of the $110$ parents
+in the example). On the prefix side the shifts are not exact: flipping letter
+$i$ of $s$ moves $P_s$ by $\mp8u_i$, and $B\nmid 8u_i$ for $i<n$, so $a_s$ moves
+by the exact quotient \emph{plus} a carry determined by $P_s\bmod B$ (measured
+at $m=3$: $56$, $485$ and $153$ of $4000$ flips for letters $0,1,2$). The
+unresolved quantity is therefore the relative placement of the prefix residues
+$a_s$ and the suffix residues $b_t$, that is the correlation
+$\sum_I\Delta A(I)\Delta Z(I)$ itself; the marginal identities above leave it
+untouched.
+
+\section{Two open problems}
+
+\begin{problem}[equivalent to fixed-seed exit]
+Give an independent proof that $r_{\min}(q)\to\infty$ for the aligned two-block
+family; equivalently, that no fixed positive integer follows $A$ and $B$
+forever.
+\end{problem}
+
+By Proposition~\ref{prop:equiv} the two formulations are the same statement.
+This restricted consequence of \cite[Theorem 1]{LopezStoll2021} is what
+motivates the paper: the preprint's theorem would settle it, but its proof is
+one we do not rely on, and the lower-density inequality of
+\cite[Theorem 2.7(b)]{MonksYazinski2004} does not reach density $2/3$. What the
+paper proves independently is everything else: the occupation theorem
+(Theorem~\ref{thm:occ}) and its sufficient conditions, the exact finite
+certificates of \S3, the depth-averaging theorem
+(Theorem~\ref{thm:depthavg}) and its density corollary, the half-word
+reduction (Proposition~\ref{prop:halfword}), and the valuation ceiling
+(Propositions~\ref{prop:valbound} and \ref{prop:family}).
+
+\begin{problem}[sufficient: a one-sided bound on the distinguished bin]
+Prove that $D_m(0)\le 84m$ for infinitely many $m$ --- or, more weakly, that
+$5m\log_\rho 64-D_m(0)$ is unbounded above.
+\end{problem}
+
+By Corollary~\ref{cor:84} the first assertion suffices for Problem 1; by the
+remark after Corollary~\ref{cor:suff} so does the second --- an unbounded
+deficit below $5m\log_{81/64}64=88.274237898\ldots m$ --- which is the weakest
+form we know. Theorem~\ref{thm:depthavg} does not settle either: it bounds the
+proportion $D_m(0)/2^{5m}$, not the count. Problem 2 is a one-sided counting estimate at the single bin
+$c=0$, with a factor $84m$ of slack over the exact mean of
+Lemma~\ref{lem:mean}; what it is not is a statement about the average, which is
+already known exactly and is insensitive to the bin in question.
+
+\appendix
+\section{Verification package}\label{app:pkg}
+
+All computations are exact integer or rational arithmetic in Python~3 with no
+external dependencies, no network access, and fixed outputs. Logs accompany
+each script in \texttt{verification/logs}.
+
+Table~\ref{tab:split} records the diagnostics of \S\ref{sec:split}. The
+exact counts $D_m(0)$ agree with Table~\ref{tab:bins}, which carries them
+through $m=8$; the bin bound $C_J$ and the level maxima are computed from the
+half-word lists. The sufficient test $e_j\le13$ holds at all six depths, with a
+margin of about six, and is verified nowhere else.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{lrrrrrr}
+\toprule
+$m$ & 1 & 2 & 3 & 4 & 5 & 6\\
+\midrule
+$D_m(0)$ & 2 & 2 & 3 & 0 & 0 & 1\\
+$C_J=2+\sum_j e_j$ & 3 & 6 & 5 & 1 & 0 & 3\\
+$\max_j e_j$ & $1$ & $17/8$ & $5/4$ & $1/2$ & $7/16$ & $1$\\
+\bottomrule
+\end{tabular}
+\caption{The half-word diagnostics of \S\ref{sec:split}
+(\texttt{seedcount.py}). $J=6m$; the bound of Proposition~\ref{prop:bins} is
+$D_m(0)\le C_J$ at each depth.}
+\label{tab:split}
+\end{table}
+
+\begin{center}\small
+\begin{tabular}{lllr}
+\toprule
+script & what it certifies & checks & time\\
+\midrule
+\texttt{note\_checks.py} & every numerical claim in this note & 37912 & 70\,s\\
+\texttt{min49.py} & $r_{\min}(49)$, Theorem~\ref{thm:min49} & --- & 96\,s\\
+\texttt{verify49.py} & minimality, complementary split & --- & 94\,s\\
+\texttt{windowcount.py} & $B_t$ census, Proposition~\ref{prop:valbound} & 110 & 55\,s\\
+\texttt{prefix6m.py} & $D_m(0)$, Lemma~\ref{lem:onecand}, \ref{prop:family} & 34314 & 95\,s\\
+\texttt{m7.py} & $D_7(0)=2$ & --- & 60\,s\\
+\texttt{averaging.py} & Theorem~\ref{thm:depthavg} & 1046 & 55\,s\\
+\texttt{seedcount.py} & Prop.~\ref{prop:halfword}, \ref{prop:bins}, Table~\ref{tab:split} & 4204 & 200\,s\\
+\texttt{rev2\_checks.py} & the claims new in this revision & --- & 30\,s\\
+\texttt{note\_verifier.py} & Proposition~\ref{prop:48} & --- & 2\,min\\
+\texttt{independent48.py} & Proposition~\ref{prop:48}, independently & --- & 8\,min\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The depth-$48$ and depth-$49$ runs store $2^{24}$ multi-precision integers and
+need about $1.3$\,GiB of memory; everything else runs in well under $1$\,GiB.
+
+\begin{thebibliography}{9}
+\raggedright
+\bibitem{Lagarias1985} J.~C. Lagarias, \emph{The $3x+1$ problem and its
+generalizations}, Amer. Math. Monthly \textbf{92} (1985), 3--23.
+\textsc{doi:}\,10.2307/2322189.
+\bibitem{DeJesusSturmian2026} E. De Jes\'us, \emph{Transcendence of the $3x+1$
+conjugacy map on Sturmian words}, version~2, 5 November 2026,
+\url{https://hexagonmath.org/2611.00108v2};
+\textsc{doi:}\,10.5281/zenodo.24015456.
+\bibitem{LopezStoll2009} J. L\'opez and P. Stoll, \emph{The $3x+1$ conjugacy
+map over a Sturmian word}, Integers \textbf{9} (2009), \#A13, 141--162.
+\textsc{doi:}\,10.1515/INTEG.2009.014.
+\bibitem{MonksYazinski2004} K.~G. Monks and J. Yazinski, \emph{The
+autoconjugacy of the $3x+1$ function}, Discrete Math. \textbf{275} (2004),
+219--236. \textsc{doi:}\,10.1016/S0012-365X(03)00125-0.
+\bibitem{LopezStoll2021} J. L\'opez and P. Stoll, \emph{The $3x+1$ periodicity
+conjecture in $\mathbb{R}$}, preprint, arXiv:2101.12747v1 [math.NT], 29 January
+2021. \textsc{doi:}\,10.48550/arXiv.2101.12747.
+\bibitem{Terras1976} R. Terras, \emph{A stopping time problem on the positive
+integers}, Acta Arith. \textbf{30} (1976), 241--252.
+\textsc{doi:}\,10.4064/aa-30-3-241-252.
+
+\end{thebibliography}
+
+\end{document}

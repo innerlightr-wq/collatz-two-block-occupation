@@ -1,0 +1,8 @@
+Depth 4 passed. Starts in the test interval: 2
+Depth 10 passed. Starts in the test interval: 2
+Depth 12 passed. Starts in the test interval: 6
+Depth 20 passed. Starts in the test interval: 0
+Only 48-block start in [1, 2**241): 100766337511639514688053192519038392361740472623921585501397359010728775
+Boundary after 48 blocks is 8202715119948079618738700704624290008326907991008520856030001878734909577507 (35 mod 64).
+No positive seed below 2**241 completes 49 blocks.
+EXIT=0
