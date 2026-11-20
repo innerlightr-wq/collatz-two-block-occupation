@@ -36,26 +36,27 @@ All scripts are standard-library Python 3, exact integer or rational
 arithmetic, no network access, deterministic output. Each exits 0 on success
 and nonzero on any failed check. Reference logs for every run are in
 `verification/logs/`; timings will differ from machine to machine, the
-mathematical output should not.
+mathematical output should not. All timings quoted here were measured on one
+idle machine from a fresh clone of this repository.
 
 ### Light runs (well under 1 GiB each)
 
 ```bash
 cd verification/scripts
-python3 rev2_checks.py        #     47 checks   ~30 s   claims new in revisions 2-3
-python3 note_checks.py 6      #  37912 checks   ~70 s   every numerical claim in the note
-python3 windowcount.py 40     #    110 checks   ~55 s   B_t census, valuation ceiling
-python3 prefix6m.py 6         #  34314 checks   ~95 s   D_m(0), mean-one lemma, comparison family
-python3 averaging.py 40       #   1046 checks   ~55 s   Theorem 4.6 ingredients
-python3 seedcount.py 6        #   4204 checks  ~200 s   Propositions 5.1-5.2 and Table 3
-python3 m7.py                 #   prints D_7(0) = 2     ~60 s
-python3 depth48.py            #     38 checks   ~10 s   depth-48 audit and the density reduction
+python3 rev2_checks.py        #     47 checks    1 s   claims new in revisions 2-3
+python3 note_checks.py 6      #  37912 checks    1 s   every numerical claim in the note
+python3 windowcount.py 40     #    110 checks    7 s   B_t census, valuation ceiling
+python3 prefix6m.py 6         #  34314 checks    1 s   D_m(0), mean-one lemma, comparison family
+python3 averaging.py 40       #   1046 checks   10 s   Theorem 4.6 ingredients
+python3 seedcount.py 6        #   4204 checks   17 s   Propositions 5.1-5.2 and Table 3
+python3 m7.py                 #   prints D_7(0) = 2     6 s
+python3 depth48.py            #     38 checks   <1 s   depth-48 audit and the density reduction
 ```
 
-### Heavy runs — about **1.3 GiB resident each**
+### Heavy runs — up to **1.3 GiB resident each**
 
-Each stores 2^24 multi-precision integers. **Run them one at a time**, not in
-parallel:
+Each stores 2^24 multi-precision integers; the largest measured peak is
+**1.29 GiB**. **Run them one at a time**, not in parallel:
 
 ```bash
 cd verification/scripts
@@ -66,10 +67,10 @@ done
 
 | script | what it establishes | time |
 |---|---|---|
-| `min49.py` | the exact least 49-block realizer, by cyclic successor search over all 2^49 words | ~96 s |
-| `verify49.py` | the same minimality, independently: an exact cyclic-interval count below the claimed value, using the complementary split of the letters | ~94 s |
-| `note_verifier.py` | the depth-48 control: exactly one 49-block-free start below 2^241 | ~2 min |
-| `independent48.py` | the same count by a structurally different implementation (branching on the first six letters, full 288-bit residues, cyclic interval test) | ~8 min |
+| `min49.py` | the exact least 49-block realizer, by cyclic successor search over all 2^49 words | 105 s |
+| `verify49.py` | the same minimality, independently: an exact cyclic-interval count below the claimed value, using the complementary split of the letters | 95 s |
+| `note_verifier.py` | the depth-48 control: exactly one 49-block-free start below 2^241 | 34 s |
+| `independent48.py` | the same count by a structurally different implementation (branching on the first six letters, full 288-bit residues, cyclic interval test) | 4 min |
 
 ### Witness versus minimality, for the depth-49 result
 
